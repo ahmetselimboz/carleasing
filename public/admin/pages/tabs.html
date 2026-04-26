@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sekmeler - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: { 50: '#f5f0ff', 100: '#ede5ff', 200: '#ddd0ff', 300: '#c4adff', 400: '#8b5cf6', 500: '#6d28d9', 600: '#37008a', 700: '#2e0071', 800: '#26005d', 900: '#1a0040' } } } } }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen" x-data="{ activeTab: 'tab1' }">
+    <div class="flex min-h-screen">
+        <aside class="sidebar fixed lg:static w-64 bg-white border-r border-slate-200 min-h-screen">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-2">
+                <div><a href="../index.html" class="text-xl font-bold text-slate-800">Admin UI Kit</a><p class="text-slate-500 text-sm mt-1">Komponentler</p></div>
+                <button class="dark-mode-toggle p-2 rounded-lg hover:bg-slate-100 text-slate-600 shrink-0" title="Tema değiştir"><i class="ri-moon-line text-xl"></i></button>
+            </div>
+            <nav class="p-4"><a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-xl text-[#37008a] bg-[#37008a]/10 font-medium text-sm"><i class="ri-arrow-left-line"></i> Tüm Komponentler</a></nav>
+        </aside>
+        <main class="flex-1 p-4 lg:p-8">
+            <nav class="mb-6 text-sm text-slate-500"><a href="index.html" class="hover:text-[#37008a]">Komponentler</a> / <span class="text-slate-800">Sekmeler</span></nav>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">Sekmeler</h1>
+            <p class="text-slate-600 mb-8">İçerik sekmeleri. Ürün detay, ayarlar sayfalarında kullanılır.</p>
+
+            <div class="space-y-12">
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Yatay Sekmeler</h2>
+                    <div class="border-b border-slate-200">
+                        <div class="flex gap-1 overflow-x-auto">
+                            <button @click="activeTab = 'tab1'" :class="['px-4 py-3 font-medium text-sm border-b-2 transition whitespace-nowrap', activeTab === 'tab1' ? 'border-[#37008a] text-[#37008a]' : 'border-transparent text-slate-500 hover:text-slate-700']">Genel</button>
+                            <button @click="activeTab = 'tab2'" :class="['px-4 py-3 font-medium text-sm border-b-2 transition whitespace-nowrap', activeTab === 'tab2' ? 'border-[#37008a] text-[#37008a]' : 'border-transparent text-slate-500 hover:text-slate-700']">Özellikler</button>
+                            <button @click="activeTab = 'tab3'" :class="['px-4 py-3 font-medium text-sm border-b-2 transition whitespace-nowrap', activeTab === 'tab3' ? 'border-[#37008a] text-[#37008a]' : 'border-transparent text-slate-500 hover:text-slate-700']">Yorumlar</button>
+                            <button @click="activeTab = 'tab4'" :class="['px-4 py-3 font-medium text-sm border-b-2 transition whitespace-nowrap', activeTab === 'tab4' ? 'border-[#37008a] text-[#37008a]' : 'border-transparent text-slate-500 hover:text-slate-700']">İlgili Ürünler</button>
+                        </div>
+                        <div class="p-6">
+                            <div x-show="activeTab === 'tab1'" x-cloak>
+                                <h4 class="font-medium text-slate-800 mb-2">Genel Bilgiler</h4>
+                                <p class="text-slate-600">Ürün açıklaması, temel bilgiler ve genel özellikler bu sekmede gösterilir.</p>
+                            </div>
+                            <div x-show="activeTab === 'tab2'" x-cloak>
+                                <h4 class="font-medium text-slate-800 mb-2">Teknik Özellikler</h4>
+                                <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                    <li>Renk: Siyah</li>
+                                    <li>Ağırlık: 250g</li>
+                                    <li>Pil: 24 saat</li>
+                                </ul>
+                            </div>
+                            <div x-show="activeTab === 'tab3'" x-cloak>
+                                <h4 class="font-medium text-slate-800 mb-2">Müşteri Yorumları</h4>
+                                <p class="text-slate-600">Bu ürün için henüz yorum yapılmamış.</p>
+                            </div>
+                            <div x-show="activeTab === 'tab4'" x-cloak>
+                                <h4 class="font-medium text-slate-800 mb-2">İlgili Ürünler</h4>
+                                <p class="text-slate-600">Benzer ürünler listesi burada gösterilir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Pill Sekmeler</h2>
+                    <div x-data="{ pillTab: 'a' }" class="space-y-4">
+                        <div class="flex gap-2">
+                            <button @click="pillTab = 'a'" :class="['px-4 py-2 rounded-full text-sm font-medium transition', pillTab === 'a' ? 'bg-[#37008a] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200']">Sekme A</button>
+                            <button @click="pillTab = 'b'" :class="['px-4 py-2 rounded-full text-sm font-medium transition', pillTab === 'b' ? 'bg-[#37008a] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200']">Sekme B</button>
+                            <button @click="pillTab = 'c'" :class="['px-4 py-2 rounded-full text-sm font-medium transition', pillTab === 'c' ? 'bg-[#37008a] text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200']">Sekme C</button>
+                        </div>
+                        <p class="text-slate-600 text-sm" x-show="pillTab === 'a'">İçerik A</p>
+                        <p class="text-slate-600 text-sm" x-show="pillTab === 'b'" x-cloak>İçerik B</p>
+                        <p class="text-slate-600 text-sm" x-show="pillTab === 'c'" x-cloak>İçerik C</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+</body>
+</html>

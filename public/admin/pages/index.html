@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponentler - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f0ff', 100: '#ede5ff', 200: '#ddd0ff', 300: '#c4adff',
+                            400: '#8b5cf6', 500: '#6d28d9', 600: '#37008a', 700: '#2e0071',
+                            800: '#26005d', 900: '#1a0040'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="flex min-h-screen">
+        <aside class="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 sidebar">
+            <div class="flex flex-col h-full">
+                <div class="p-6 border-b border-slate-100">
+                    <a href="../index.html" class="text-xl font-bold text-slate-800">Admin UI Kit</a>
+                    <p class="text-slate-500 text-sm mt-1">Komponentler</p>
+                </div>
+                <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+                    <a href="../dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-600 transition-soft"><i class="ri-dashboard-3-line text-xl"></i> Dashboard</a>
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#37008a]/10 text-[#37008a] font-medium transition-soft"><i class="ri-palette-line text-xl"></i> Komponentler</a>
+                    <a href="../index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-600 transition-soft"><i class="ri-home-4-line text-xl"></i> Ana Sayfa</a>
+                    <div class="pt-4 mt-4 border-t border-slate-100 space-y-1">
+                        <a href="buttons.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-cursor-line"></i> Butonlar</a>
+                        <a href="forms.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-file-list-3-line"></i> Formlar</a>
+                        <a href="tables.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-table-line"></i> Tablolar</a>
+                        <a href="cards.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-layout-grid-line"></i> Kartlar</a>
+                        <a href="modals.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-window-line"></i> Modaller</a>
+                        <a href="alerts.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-alarm-warning-line"></i> Uyarılar</a>
+                        <a href="badges.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-price-tag-3-line"></i> Rozetler</a>
+                        <a href="tabs.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-layout-column-line"></i> Sekmeler</a>
+                        <a href="accordions.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-arrow-down-s-line"></i> Accordion</a>
+                        <a href="breadcrumb.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-route-line"></i> Breadcrumb</a>
+                        <a href="avatar.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-user-smile-line"></i> Avatar</a>
+                        <a href="tooltip.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-chat-1-line"></i> Tooltip</a>
+                        <a href="file-upload.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-upload-cloud-line"></i> Dosya Yükleme</a>
+                        <a href="image-picker.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-image-line"></i> Image Picker</a>
+                        <a href="search.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-search-line"></i> Arama</a>
+                        <a href="toast.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-notification-3-line"></i> Toast</a>
+                        <a href="progress.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-loader-line"></i> Progress</a>
+                        <a href="dropdown.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-arrow-down-circle-line"></i> Dropdown</a>
+                        <a href="pagination.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-skip-right-line"></i> Sayfalama</a>
+                        <a href="switch.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-toggle-line"></i> Switch</a>
+                        <a href="skeleton.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-ghost-line"></i> Skeleton</a>
+                        <a href="empty-state.html" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-500 transition-soft text-sm"><i class="ri-inbox-line"></i> Boş Durum</a>
+                    </div>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-x-hidden">
+            <header class="header sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-slate-200 px-4 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-slate-800">Komponent Kütüphanesi</h2>
+                    <div class="flex items-center gap-3">
+                        <button class="dark-mode-toggle p-2 rounded-lg hover:bg-slate-100 text-slate-600" title="Tema değiştir">
+                            <i class="ri-moon-line text-xl"></i>
+                        </button>
+                        <a href="../dashboard.html" class="text-sm text-[#37008a] hover:text-[#4d00a3] font-medium flex items-center gap-1">Dashboard <i class="ri-arrow-right-line"></i></a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-4 lg:p-8">
+                <h1 class="text-2xl font-bold text-slate-800 mb-2">Tüm Komponentler</h1>
+                <p class="text-slate-600 mb-8">Her komponent ayrı sayfada detaylı olarak gösteriliyor.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="buttons.html" class="comp-card p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group">
+                        <i class="ri-cursor-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Butonlar</h3>
+                        <p class="text-slate-500 text-sm mt-1">Primary, ghost, outline varyantları</p>
+                    </a>
+                    <a href="forms.html" class="comp-card p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group">
+                        <i class="ri-file-list-3-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Formlar</h3>
+                        <p class="text-slate-500 text-sm mt-1">Validasyonlu form elementleri</p>
+                    </a>
+                    <a href="tables.html" class="comp-card p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group">
+                        <i class="ri-table-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Tablolar</h3>
+                        <p class="text-slate-500 text-sm mt-1">Sıralama, filtreleme, aksiyonlar</p>
+                    </a>
+                    <a href="cards.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-layout-grid-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Kartlar</h3>
+                        <p class="text-slate-500 text-sm mt-1">İstatistik, ürün, içerik kartları</p>
+                    </a>
+                    <a href="modals.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-window-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Modaller</h3>
+                        <p class="text-slate-500 text-sm mt-1">Bilgi, onay, form modalleri</p>
+                    </a>
+                    <a href="alerts.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-notification-3-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Uyarılar</h3>
+                        <p class="text-slate-500 text-sm mt-1">Bilgi, başarı, hata mesajları</p>
+                    </a>
+                    <a href="badges.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-price-tag-3-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Rozetler</h3>
+                        <p class="text-slate-500 text-sm mt-1">Durum göstergeleri</p>
+                    </a>
+                    <a href="tabs.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-folder-open-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Sekmeler</h3>
+                        <p class="text-slate-500 text-sm mt-1">İçerik sekmeleri</p>
+                    </a>
+                    <a href="accordions.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-file-list-2-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Accordion</h3>
+                        <p class="text-slate-500 text-sm mt-1">Açılır-kapanır bölümler</p>
+                    </a>
+                    <a href="breadcrumb.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-links-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Breadcrumb</h3>
+                        <p class="text-slate-500 text-sm mt-1">Sayfa gezinme yolu</p>
+                    </a>
+                    <a href="avatar.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-user-3-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Avatar</h3>
+                        <p class="text-slate-500 text-sm mt-1">Kullanıcı avatarı</p>
+                    </a>
+                    <a href="tooltip.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-chat-3-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Tooltip</h3>
+                        <p class="text-slate-500 text-sm mt-1">İpucu mesajları</p>
+                    </a>
+                    <a href="file-upload.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-folder-upload-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Dosya Yükleme</h3>
+                        <p class="text-slate-500 text-sm mt-1">Drag & drop</p>
+                    </a>
+                    <a href="image-picker.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-image-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Image Picker</h3>
+                        <p class="text-slate-500 text-sm mt-1">Görsel seçimi</p>
+                    </a>
+                    <a href="search.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-search-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Arama</h3>
+                        <p class="text-slate-500 text-sm mt-1">Arama input</p>
+                    </a>
+                    <a href="toast.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-notification-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Toast</h3>
+                        <p class="text-slate-500 text-sm mt-1">Bildirim mesajları</p>
+                    </a>
+                    <a href="progress.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-line-chart-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Progress</h3>
+                        <p class="text-slate-500 text-sm mt-1">İlerleme çubukları</p>
+                    </a>
+                    <a href="dropdown.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-menu-2-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Dropdown</h3>
+                        <p class="text-slate-500 text-sm mt-1">Açılır menü</p>
+                    </a>
+                    <a href="pagination.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-file-list-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Sayfalama</h3>
+                        <p class="text-slate-500 text-sm mt-1">Pagination</p>
+                    </a>
+                    <a href="switch.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-toggle-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Switch</h3>
+                        <p class="text-slate-500 text-sm mt-1">Toggle switch</p>
+                    </a>
+                    <a href="skeleton.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-loader-4-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Skeleton</h3>
+                        <p class="text-slate-500 text-sm mt-1">Yükleme placeholder</p>
+                    </a>
+                    <a href="empty-state.html" class="p-6 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#37008a]/20 transition-soft group comp-card">
+                        <i class="ri-inbox-line text-3xl text-[#37008a] block mb-3 group-hover:scale-110 transition-soft"></i>
+                        <h3 class="font-semibold text-slate-800">Boş Durum</h3>
+                        <p class="text-slate-500 text-sm mt-1">Empty state</p>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

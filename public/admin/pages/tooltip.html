@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltip - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:{600:'#37008a'}}}}}</script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="flex min-h-screen">
+        <aside class="sidebar page-sidebar fixed lg:static w-64 bg-white border-r border-slate-200 min-h-screen">
+            <div class="p-5 border-b border-slate-100">
+                <a href="../index.html" class="flex items-center gap-2">
+                    <i class="ri-palette-line text-xl text-[#37008a]"></i>
+                    <span class="font-bold text-slate-800">UI Kit</span>
+                </a>
+                <button class="dark-mode-toggle mt-3 p-2 rounded-lg hover:bg-slate-100 text-slate-600" title="Tema değiştir">
+                    <i class="ri-moon-line"></i>
+                </button>
+            </div>
+            <nav class="p-4">
+                <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#37008a]/10 text-[#37008a] font-medium text-sm">
+                    <i class="ri-arrow-left-line"></i> Tüm Komponentler
+                </a>
+            </nav>
+        </aside>
+        <main class="flex-1 p-4 lg:p-8">
+            <nav class="mb-6 text-sm text-slate-500"><a href="index.html" class="hover:text-[#37008a]">Komponentler</a> / <span class="text-slate-800">Tooltip</span></nav>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">Tooltip</h1>
+            <p class="text-slate-600 mb-8">data-tooltip ile jQuery tabanlı profesyonel tooltip. Hover ile yumuşak animasyon.</p>
+
+            <div class="space-y-12">
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Pozisyonlar (data-tooltip)</h2>
+                    <p class="text-slate-600 text-sm mb-4">data-tooltip="metin" ve data-tooltip-pos="top|bottom|left|right"</p>
+                    <div class="flex flex-wrap gap-8 items-center justify-center py-12">
+                        <button data-tooltip="Üstte tooltip" data-tooltip-pos="top" class="px-4 py-2.5 bg-[#37008a] text-white rounded-xl hover:bg-[#4d00a3] transition-soft font-medium">
+                            <i class="ri-arrow-up-line mr-1"></i> Üst
+                        </button>
+                        <button data-tooltip="Altta tooltip" data-tooltip-pos="bottom" class="px-4 py-2.5 bg-[#37008a] text-white rounded-xl hover:bg-[#4d00a3] transition-soft font-medium">
+                            <i class="ri-arrow-down-line mr-1"></i> Alt
+                        </button>
+                        <button data-tooltip="Solda tooltip" data-tooltip-pos="left" class="px-4 py-2.5 bg-[#37008a] text-white rounded-xl hover:bg-[#4d00a3] transition-soft font-medium">
+                            <i class="ri-arrow-left-line mr-1"></i> Sol
+                        </button>
+                        <button data-tooltip="Sağda tooltip" data-tooltip-pos="right" class="px-4 py-2.5 bg-[#37008a] text-white rounded-xl hover:bg-[#4d00a3] transition-soft font-medium">
+                            <i class="ri-arrow-right-line mr-1"></i> Sağ
+                        </button>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">İkon Tooltip (Remixicon)</h2>
+                    <div class="flex flex-wrap gap-6">
+                        <button data-tooltip="Bilgi: Bu alan zorunludur" class="p-2.5 bg-[#37008a]/10 text-[#37008a] rounded-xl hover:bg-[#37008a]/20 transition-soft">
+                            <i class="ri-information-line text-xl"></i>
+                        </button>
+                        <button data-tooltip="Ayarları düzenle" class="p-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-soft">
+                            <i class="ri-settings-3-line text-xl"></i>
+                        </button>
+                        <button data-tooltip="Bu öğeyi sil (dikkatli olun)" data-tooltip-pos="bottom" class="p-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-soft">
+                            <i class="ri-delete-bin-line text-xl"></i>
+                        </button>
+                        <button data-tooltip="Yazdır" class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 transition-soft">
+                            <i class="ri-printer-line text-xl"></i>
+                        </button>
+                        <button data-tooltip="İndir" data-tooltip-pos="bottom" class="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-soft">
+                            <i class="ri-download-line text-xl"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Uzun Metin</h2>
+                    <button data-tooltip="Bu bir açıklama tooltip'idir. Birden fazla cümle içerebilir ve kullanıcıya detaylı bilgi sunar." data-tooltip-pos="top" class="px-4 py-2.5 border-2 border-[#37008a] text-[#37008a] rounded-xl hover:bg-[#37008a]/5 transition-soft font-medium">
+                        <i class="ri-question-line mr-2"></i> Yardım
+                    </button>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+
+</body>
+</html>

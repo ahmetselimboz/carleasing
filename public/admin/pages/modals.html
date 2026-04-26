@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modaller - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: { 50: '#f5f0ff', 100: '#ede5ff', 200: '#ddd0ff', 300: '#c4adff', 400: '#8b5cf6', 500: '#6d28d9', 600: '#37008a', 700: '#2e0071', 800: '#26005d', 900: '#1a0040' } } } } }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen" x-data="modalApp()">
+    <div class="flex min-h-screen">
+        <aside class="sidebar fixed lg:static w-64 bg-white border-r border-slate-200 min-h-screen">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-2">
+                <div><a href="../index.html" class="text-xl font-bold text-slate-800">Admin UI Kit</a><p class="text-slate-500 text-sm mt-1">Komponentler</p></div>
+                <button class="dark-mode-toggle p-2 rounded-lg hover:bg-slate-100 text-slate-600 shrink-0" title="Tema değiştir"><i class="ri-moon-line text-xl"></i></button>
+            </div>
+            <nav class="p-4"><a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-xl text-[#37008a] bg-[#37008a]/10 font-medium text-sm"><i class="ri-arrow-left-line"></i> Tüm Komponentler</a></nav>
+        </aside>
+        <main class="flex-1 p-4 lg:p-8">
+            <nav class="mb-6 text-sm text-slate-500"><a href="index.html" class="hover:text-[#37008a]">Komponentler</a> / <span class="text-slate-800">Modaller</span></nav>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">Modaller</h1>
+            <p class="text-slate-600 mb-8">Bilgi, onay ve form modalleri. Overlay ile arka plan karartma.</p>
+
+            <div class="space-y-12">
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Modal Türleri</h2>
+                    <div class="flex flex-wrap gap-3">
+                        <button @click="infoOpen = true" class="px-4 py-2 bg-[#37008a] text-white rounded-lg hover:bg-[#4d00a3] transition font-medium">Bilgi Modalı</button>
+                        <button @click="confirmOpen = true" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">Onay Modalı</button>
+                        <button @click="formOpen = true" class="px-4 py-2 border-2 border-[#37008a] text-[#37008a] rounded-lg hover:bg-primary-50 transition font-medium">Form Modalı</button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Info Modal -->
+    <div x-show="infoOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div x-show="infoOpen" x-transition class="fixed inset-0 bg-black/50" @click="infoOpen = false"></div>
+        <div x-show="infoOpen" x-transition class="relative bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <h3 class="text-lg font-semibold text-slate-800">Bilgi Modalı</h3>
+            <p class="mt-2 text-slate-600">Bu bir bilgi modalıdır. Kullanıcıya bilgi sunmak için kullanılır.</p>
+            <div class="mt-6 flex justify-end">
+                <button @click="infoOpen = false" class="px-4 py-2 bg-[#37008a] text-white rounded-lg hover:bg-[#4d00a3] transition font-medium">Tamam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div x-show="confirmOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div x-show="confirmOpen" x-transition class="fixed inset-0 bg-black/50" @click="confirmOpen = false"></div>
+        <div x-show="confirmOpen" x-transition class="relative bg-white rounded-xl shadow-xl max-w-md w-full p-6 text-center">
+            <i class="ri-error-warning-line text-4xl text-amber-500"></i>
+            <h3 class="mt-2 text-lg font-semibold text-slate-800">Emin misiniz?</h3>
+            <p class="mt-2 text-slate-600">Bu işlem geri alınamaz.</p>
+            <div class="mt-6 flex justify-center gap-3">
+                <button @click="confirmOpen = false" class="px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition font-medium">İptal</button>
+                <button @click="confirmOpen = false" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">Evet, Sil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Modal -->
+    <div x-show="formOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div x-show="formOpen" x-transition class="fixed inset-0 bg-black/50" @click="formOpen = false"></div>
+        <div x-show="formOpen" x-transition class="relative bg-white rounded-xl shadow-xl max-w-lg w-full p-6 my-8">
+            <h3 class="text-lg font-semibold text-slate-800">Yeni Kayıt</h3>
+            <form class="mt-4 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Ad</label>
+                    <input type="text" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#37008a] transition" placeholder="Adınız">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">E-posta</label>
+                    <input type="email" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#37008a] transition" placeholder="ornek@email.com">
+                </div>
+            </form>
+            <div class="mt-6 flex justify-end gap-3">
+                <button @click="formOpen = false" class="px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition font-medium">İptal</button>
+                <button @click="formOpen = false" class="px-4 py-2 bg-[#37008a] text-white rounded-lg hover:bg-[#4d00a3] transition font-medium">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script>
+        function modalApp() {
+            return { infoOpen: false, confirmOpen: false, formOpen: false }
+        }
+    </script>
+</body>
+</html>

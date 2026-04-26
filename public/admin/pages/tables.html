@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablolar - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: { 50: '#f5f0ff', 100: '#ede5ff', 200: '#ddd0ff', 300: '#c4adff', 400: '#8b5cf6', 500: '#6d28d9', 600: '#37008a', 700: '#2e0071', 800: '#26005d', 900: '#1a0040' } } } } }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen" x-data="tableApp()">
+    <div class="flex min-h-screen">
+        <aside class="sidebar fixed lg:static w-64 bg-white border-r border-slate-200 min-h-screen">
+            <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-2">
+                <div><a href="../index.html" class="text-xl font-bold text-slate-800">Admin UI Kit</a><p class="text-slate-500 text-sm mt-1">Komponentler</p></div>
+                <button class="dark-mode-toggle p-2 rounded-lg hover:bg-slate-100 text-slate-600 shrink-0" title="Tema değiştir"><i class="ri-moon-line text-xl"></i></button>
+            </div>
+            <nav class="p-4"><a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-xl text-[#37008a] bg-[#37008a]/10 font-medium text-sm"><i class="ri-arrow-left-line"></i> Tüm Komponentler</a></nav>
+        </aside>
+        <main class="flex-1 p-4 lg:p-8">
+            <nav class="mb-6 text-sm text-slate-500"><a href="index.html" class="hover:text-[#37008a]">Komponentler</a> / <span class="text-slate-800">Tablolar</span></nav>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">Tablolar</h1>
+            <p class="text-slate-600 mb-8">Sıralama, filtreleme, aksiyon menüsü ve sayfalama ile veri tabloları.</p>
+
+            <div class="space-y-12">
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Temel Tablo</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[600px]">
+                            <thead>
+                                <tr class="border-b border-slate-200 bg-slate-50">
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700">ID</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700">Ürün</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700">Kategori</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700">Fiyat</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700">Durum</th>
+                                    <th class="text-right py-3 px-4 font-semibold text-slate-700">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
+                                    <td class="py-3 px-4 text-slate-600">#1001</td>
+                                    <td class="py-3 px-4 font-medium">Kablosuz Kulaklık</td>
+                                    <td class="py-3 px-4 text-slate-600">Elektronik</td>
+                                    <td class="py-3 px-4">₺299</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-emerald-100 text-emerald-800">Stokta</span></td>
+                                    <td class="py-3 px-4 text-right">
+                                        <button class="text-[#37008a] hover:text-[#4d00a3] text-sm font-medium">Düzenle</button>
+                                        <button class="text-red-600 hover:text-red-700 text-sm font-medium ml-2">Sil</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
+                                    <td class="py-3 px-4 text-slate-600">#1002</td>
+                                    <td class="py-3 px-4 font-medium">Akıllı Saat</td>
+                                    <td class="py-3 px-4 text-slate-600">Elektronik</td>
+                                    <td class="py-3 px-4">₺1.499</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800">Az Stok</span></td>
+                                    <td class="py-3 px-4 text-right">
+                                        <button class="text-[#37008a] hover:text-[#4d00a3] text-sm font-medium">Düzenle</button>
+                                        <button class="text-red-600 hover:text-red-700 text-sm font-medium ml-2">Sil</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
+                                    <td class="py-3 px-4 text-slate-600">#1003</td>
+                                    <td class="py-3 px-4 font-medium">Bluetooth Hoparlör</td>
+                                    <td class="py-3 px-4 text-slate-600">Elektronik</td>
+                                    <td class="py-3 px-4">₺449</td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Tükendi</span></td>
+                                    <td class="py-3 px-4 text-right">
+                                        <button class="text-[#37008a] hover:text-[#4d00a3] text-sm font-medium">Düzenle</button>
+                                        <button class="text-red-600 hover:text-red-700 text-sm font-medium ml-2">Sil</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Sıralanabilir Tablo</h2>
+                    <p class="text-slate-600 text-sm mb-4">Sütun başlıklarına tıklayarak sıralama yapılabilir.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[500px]">
+                            <thead>
+                                <tr class="border-b border-slate-200 bg-slate-50">
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700 cursor-pointer hover:text-[#37008a]">Ad <i class="ri-arrow-up-s-line"></i></th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700 cursor-pointer hover:text-[#37008a]">E-posta</th>
+                                    <th class="text-left py-3 px-4 font-semibold text-slate-700 cursor-pointer hover:text-[#37008a]">Rol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50"><td class="py-3 px-4 font-medium">Ahmet Yılmaz</td><td class="py-3 px-4 text-slate-600">ahmet@email.com</td><td class="py-3 px-4"><span class="px-2 py-1 text-xs rounded-full bg-[#37008a]/10 text-[#37008a]">Admin</span></td></tr>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50/50"><td class="py-3 px-4 font-medium">Ayşe Demir</td><td class="py-3 px-4 text-slate-600">ayse@email.com</td><td class="py-3 px-4"><span class="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700">Kullanıcı</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Sayfalama</h2>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+                        <p class="text-sm text-slate-500">Toplam 24 kayıt, sayfa 2/5</p>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm hover:bg-slate-50 disabled:opacity-50" disabled>Önceki</button>
+                            <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm hover:bg-slate-50">1</button>
+                            <button class="px-3 py-1.5 bg-[#37008a] text-white rounded-lg text-sm">2</button>
+                            <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm hover:bg-slate-50">3</button>
+                            <button class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm hover:bg-slate-50">Sonraki</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script>function tableApp() { return {} }</script>
+</body>
+</html>

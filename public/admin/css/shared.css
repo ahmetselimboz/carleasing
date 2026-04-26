@@ -1,0 +1,844 @@
+/* ================================================================
+   Admin UI Kit - Ortak Stiller
+   Mor Tema: #37008a
+   ================================================================ */
+
+[x-cloak] {
+    display: none !important;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ================================================================
+   RENK DEĞİŞKENLERİ
+   Dark/Light renkleri değiştirmek için SADECE burayı düzenleyin.
+   ================================================================ */
+:root {
+    /* --- Light Mode --- */
+    --color-brand: #37008a;
+    --color-brand-hover: #4d00a3;
+    --color-brand-soft: rgba(55, 0, 138, 0.1);
+    /* Dolgu (buton, anahtar, dosya seçici) — koyu modda ayrı ton */
+    --color-brand-solid: #37008a;
+    --color-brand-solid-hover: #4d00a3;
+
+    --bg-body: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f1f5f9;
+    --bg-input: #ffffff;
+
+    --border-default: #e2e8f0;
+    --border-light: #f1f5f9;
+
+    --text-heading: #1e293b;
+    --text-body: #334155;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-faint: #94a3b8;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    /* --- Dark Mode --- */
+    /* Metin/ikon vurgusu (açık mor) */
+    --color-brand: #c4b5fd;
+    --color-brand-hover: #ddd6fe;
+    --color-brand-soft: rgba(196, 181, 253, 0.18);
+    /* Dolgu alanları (okunaklı doygun mor) */
+    --color-brand-solid: #7c3aed;
+    --color-brand-solid-hover: #8b5cf6;
+
+    --bg-body: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-alt: #334155;
+    --bg-input: #0f172a;
+
+    --border-default: #334155;
+    --border-light: #1e293b;
+
+    --text-heading: #f1f5f9;
+    --text-body: #e2e8f0;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-faint: #64748b;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+}
+
+button {
+    cursor: pointer;
+}
+
+/* ================================================================
+   PRIMARY / BRAND
+   ================================================================ */
+.bg-primary {
+    background-color: var(--color-brand-solid);
+}
+
+.text-primary {
+    color: var(--color-brand);
+}
+
+.border-primary {
+    border-color: var(--color-brand);
+}
+
+/* Ayarlar / formlar: marka rengi her zaman değişkenden */
+.text-brand {
+    color: var(--color-brand) !important;
+}
+
+.border-brand {
+    border-color: var(--color-brand) !important;
+}
+
+.bg-brand-solid {
+    background-color: var(--color-brand-solid) !important;
+}
+
+.hover\:bg-brand-solid-hover:hover {
+    background-color: var(--color-brand-solid-hover) !important;
+}
+
+.admin-tab-active {
+    border-color: var(--color-brand) !important;
+    color: var(--color-brand) !important;
+}
+
+.peer:checked~.peer-checked\:bg-brand-solid {
+    background-color: var(--color-brand-solid) !important;
+}
+
+.file\:bg-brand-solid::file-selector-button {
+    background-color: var(--color-brand-solid) !important;
+}
+
+.focus\:border-brand:focus {
+    border-color: var(--color-brand) !important;
+}
+
+.focus\:ring-brand\/20:focus,
+.focus\:ring-brand\/20:focus-visible {
+    --tw-ring-color: rgba(55, 0, 138, 0.22);
+}
+
+body.dark-mode .focus\:ring-brand\/20:focus,
+body.dark-mode .focus\:ring-brand\/20:focus-visible {
+    --tw-ring-color: rgba(167, 139, 250, 0.42) !important;
+}
+
+/* ================================================================
+   GENEL YARDIMCI STILLER
+   ================================================================ */
+.transition-soft {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-soft-slow {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.toast-enter {
+    animation: toastSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Input validation */
+.input-error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.input-success {
+    border-color: #22c55e !important;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+/* Sidebar mobile */
+.sidebar {
+    transition: transform 0.3s ease-out;
+}
+
+.sidebar.sidebar-open {
+    transform: translateX(0) !important;
+}
+
+/* ================================================================
+   RIPPLE EFFECT (button click animation)
+   ================================================================ */
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    animation: rippleAnim 0.6s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes rippleAnim {
+    to {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
+}
+
+/* ================================================================
+   SCROLL TO TOP BUTTON
+   ================================================================ */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9998;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    background: var(--color-brand-solid);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(55, 0, 138, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+    pointer-events: none;
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.scroll-top-btn:hover {
+    background: var(--color-brand-solid-hover);
+}
+
+body.dark-mode .scroll-top-btn {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ================================================================
+   CARD HOVER (shadow transition)
+   ================================================================ */
+.card,
+.stat-card,
+.comp-card,
+.quick-card {
+    transition: box-shadow 0.25s ease, margin 0.15s ease;
+}
+
+.card:hover,
+.stat-card:hover,
+.comp-card:hover,
+.quick-card:hover {
+    box-shadow: 0 8px 24px rgba(55, 0, 138, 0.08);
+}
+
+body.dark-mode .card:hover,
+body.dark-mode .stat-card:hover,
+body.dark-mode .comp-card:hover,
+body.dark-mode .quick-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================================
+   SIDEBAR NAV HOVER INDICATOR
+   ================================================================ */
+.sidebar nav a,
+aside nav a {
+    transition: all 0.2s ease;
+}
+
+.sidebar nav a:hover,
+aside nav a:hover {
+    padding-left: 20px;
+}
+
+/* Nav */
+.nav-item:hover {
+    background-color: var(--color-brand-soft);
+    color: var(--color-brand);
+}
+
+.nav-item.active {
+    background-color: var(--color-brand-soft);
+    color: var(--color-brand);
+}
+
+/* ================================================================
+   TOOLTIP
+   ================================================================ */
+#ui-tooltip {
+    position: fixed;
+    z-index: 99999;
+    padding: 5px 9px;
+    background: #1e293b;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.35;
+    border-radius: 6px;
+    max-width: 220px;
+    white-space: normal;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+#ui-tooltip.tooltip-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#ui-tooltip[data-pos="bottom"] {
+    transform: translateY(-4px);
+}
+
+#ui-tooltip.tooltip-visible[data-pos="bottom"] {
+    transform: translateY(0);
+}
+
+/* ================================================================
+   DARK MODE – TÜM KURALLAR
+   Renk değişkenleri yukarıda tanımlandı. Aşağıdaki kurallar
+   Tailwind utility class'larını dark modda override eder.
+   ================================================================ */
+
+/* ---------- BODY ---------- */
+body.dark-mode {
+    background-color: var(--bg-body) !important;
+    color: var(--text-body);
+}
+
+/* ---------- GLOBAL bg-white OVERRIDE ---------- */
+body.dark-mode .bg-white {
+    background-color: var(--bg-surface) !important;
+}
+
+/* ---------- GLOBAL bg-slate OVERRIDES ---------- */
+body.dark-mode .bg-slate-50 {
+    background-color: var(--bg-body) !important;
+}
+
+body.dark-mode .bg-slate-100 {
+    background-color: var(--bg-surface-alt) !important;
+}
+
+/* ---------- GLOBAL border OVERRIDES ---------- */
+body.dark-mode .border-slate-50 {
+    border-color: var(--border-light) !important;
+}
+
+body.dark-mode .border-slate-100 {
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .border-slate-200 {
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .border-slate-300 {
+    border-color: #475569 !important;
+}
+
+/* ---------- GLOBAL text OVERRIDES ---------- */
+body.dark-mode .text-slate-900 {
+    color: #f8fafc !important;
+}
+
+body.dark-mode .text-slate-800 {
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .text-slate-700 {
+    color: var(--text-body) !important;
+}
+
+body.dark-mode .text-slate-600 {
+    color: var(--text-secondary) !important;
+}
+
+body.dark-mode .text-slate-500 {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .text-slate-400 {
+    color: var(--text-faint) !important;
+}
+
+body.dark-mode .text-slate-300 {
+    color: #94a3b8 !important;
+}
+
+/* ---------- SIDEBAR ---------- */
+body.dark-mode .sidebar {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .sidebar .nav-item {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .sidebar .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .sidebar .nav-item.active {
+    background-color: rgba(139, 92, 246, 0.22) !important;
+    color: var(--color-brand) !important;
+}
+
+body.dark-mode .sidebar a,
+body.dark-mode .sidebar h1,
+body.dark-mode .sidebar p {
+    color: inherit !important;
+}
+
+body.dark-mode .sidebar .submenu a {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .sidebar .nav-item.text-red-600 {
+    color: #f87171 !important;
+}
+
+/* ---------- HEADER ---------- */
+body.dark-mode .header {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .header input {
+    background-color: var(--bg-input) !important;
+    border-color: #475569 !important;
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .header input::placeholder {
+    color: var(--text-faint) !important;
+}
+
+body.dark-mode .header button {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .header button:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+body.dark-mode .header [data-dropdown] {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .header [data-dropdown] a {
+    color: var(--text-body) !important;
+}
+
+body.dark-mode .header [data-dropdown] a:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- CARD / STAT-CARD ---------- */
+body.dark-mode .stat-card,
+body.dark-mode .card {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- ASIDE (component sayfaları) ---------- */
+body.dark-mode aside {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode aside a,
+body.dark-mode aside p {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode aside a:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text-heading) !important;
+}
+
+/* ---------- INPUT / SELECT / TEXTAREA ---------- */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: var(--bg-surface) !important;
+    border-color: #475569 !important;
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: var(--text-faint) !important;
+}
+
+body.dark-mode select option {
+    background: var(--bg-surface);
+    color: var(--text-heading);
+}
+
+body.dark-mode input[type="checkbox"] {
+    accent-color: var(--color-brand);
+}
+
+body.dark-mode input[type="radio"] {
+    accent-color: var(--color-brand);
+}
+
+body.dark-mode input[type="range"] {
+    accent-color: var(--color-brand);
+}
+
+/* ---------- TABLO ---------- */
+body.dark-mode table {
+    color: var(--text-body);
+}
+
+body.dark-mode th {
+    color: var(--text-muted) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode td {
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode tr:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+body.dark-mode thead tr {
+    background-color: var(--bg-surface-alt) !important;
+}
+
+/* ---------- MODAL / OVERLAY ---------- */
+body.dark-mode .modal-content,
+body.dark-mode .rounded-xl.shadow-xl {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- DROPDOWN / LINK renkleri ---------- */
+body.dark-mode a.text-red-600 {
+    color: #f87171 !important;
+}
+
+body.dark-mode a.text-red-600:hover {
+    background-color: rgba(248, 113, 113, 0.1) !important;
+    color: #f87171 !important;
+}
+
+/* ---------- ACCORDION ---------- */
+body.dark-mode .border-slate-200.rounded-lg button {
+    background-color: var(--bg-surface-alt) !important;
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .border-slate-200.rounded-lg .border-t {
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- BADGE / ROZET ---------- */
+body.dark-mode .bg-emerald-50,
+body.dark-mode .bg-emerald-100 {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+body.dark-mode .bg-amber-50,
+body.dark-mode .bg-amber-100 {
+    background-color: rgba(245, 158, 11, 0.15) !important;
+}
+
+body.dark-mode .bg-blue-50,
+body.dark-mode .bg-blue-100 {
+    background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+body.dark-mode .bg-red-50,
+body.dark-mode .bg-red-100 {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+body.dark-mode .bg-violet-50 {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+/* ---------- TAB BORDERS ---------- */
+body.dark-mode .border-b.border-slate-200 {
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- MARKA #37008a (Tailwind arbitrary) — tüm öğeler + tab butonları ---------- */
+body.dark-mode .text-\[\#37008a\] {
+    color: #c4b5fd !important;
+}
+
+body.dark-mode .border-\[\#37008a\] {
+    border-color: #a78bfa !important;
+}
+
+body.dark-mode .bg-\[\#37008a\] {
+    background-color: #7c3aed !important;
+}
+
+body.dark-mode .hover\:bg-\[\#4d00a3\]:hover {
+    background-color: #8b5cf6 !important;
+}
+
+body.dark-mode .peer:checked~.peer-checked\:bg-\[\#37008a\] {
+    background-color: #7c3aed !important;
+}
+
+body.dark-mode .focus\:ring-\[\#37008a\]\/20:focus,
+body.dark-mode .focus\:ring-\[\#37008a\]\/20:focus-visible {
+    --tw-ring-color: rgba(167, 139, 250, 0.4) !important;
+}
+
+body.dark-mode .ring-\[\#37008a\]\/20 {
+    --tw-ring-color: rgba(167, 139, 250, 0.35) !important;
+}
+
+body.dark-mode input[type="file"].file\:bg-\[\#37008a\]::file-selector-button,
+body.dark-mode .file\:bg-\[\#37008a\]::file-selector-button {
+    background-color: #7c3aed !important;
+}
+
+/* ---------- Yarı saydam slate / amber yüzeyler (ayarlar kartları) ---------- */
+body.dark-mode .bg-slate-50\/50 {
+    background-color: rgba(51, 65, 85, 0.45) !important;
+}
+
+body.dark-mode .bg-slate-50\/80 {
+    background-color: rgba(51, 65, 85, 0.55) !important;
+}
+
+body.dark-mode .bg-amber-50\/60 {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+    border-color: rgba(251, 191, 36, 0.28) !important;
+}
+
+body.dark-mode .border-amber-100 {
+    border-color: rgba(251, 191, 36, 0.35) !important;
+}
+
+body.dark-mode .text-amber-900 {
+    color: #fcd34d !important;
+}
+
+body.dark-mode .bg-white\/80 {
+    background-color: rgba(30, 41, 59, 0.85) !important;
+}
+
+/* Küçük kod / etiket arka planları */
+body.dark-mode code.border-slate-200 {
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode code.bg-white {
+    background-color: var(--bg-surface-alt) !important;
+    color: var(--text-body) !important;
+}
+
+body.dark-mode code.bg-slate-50 {
+    background-color: rgba(51, 65, 85, 0.6) !important;
+}
+
+body.dark-mode code.bg-slate-100 {
+    background-color: var(--bg-surface-alt) !important;
+}
+
+/* ---------- LINKS ---------- */
+
+/* ---------- BREADCRUMB separator ---------- */
+body.dark-mode .text-slate-300 {
+    color: #475569 !important;
+}
+
+/* ---------- PAGINATION buttons ---------- */
+body.dark-mode button.border {
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- PROGRESS BAR bg ---------- */
+body.dark-mode .bg-slate-200 {
+    background-color: var(--bg-surface-alt) !important;
+}
+
+/* ---------- SKELETON pulse ---------- */
+body.dark-mode .animate-pulse {
+    opacity: 0.4;
+}
+
+/* ---------- DASHED border (file upload) ---------- */
+body.dark-mode .border-dashed {
+    border-color: #475569 !important;
+}
+
+/* ---------- QUICK CARD (index.html) ---------- */
+body.dark-mode .quick-card {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .quick-card span {
+    color: var(--text-body) !important;
+}
+
+/* ---------- COMP CARD (pages/index.html) ---------- */
+body.dark-mode .comp-card {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .comp-card h3 {
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .comp-card p {
+    color: var(--text-muted) !important;
+}
+
+/* ---------- FOOTER ---------- */
+body.dark-mode footer {
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode footer p {
+    color: var(--text-muted) !important;
+}
+
+/* ---------- DARK MODE TOGGLE BUTTON ---------- */
+body.dark-mode .dark-mode-toggle {
+    color: var(--text-muted) !important;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- HOVER STATES ---------- */
+body.dark-mode .hover\:bg-slate-50:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+body.dark-mode .hover\:bg-slate-100:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-mode .hover\:text-slate-700:hover {
+    color: var(--text-heading) !important;
+}
+
+/* ---------- BACKDROP BLUR header ---------- */
+body.dark-mode .bg-white\/95 {
+    background-color: rgba(30, 41, 59, 0.95) !important;
+}
+
+/* ---------- LABEL ---------- */
+body.dark-mode label {
+    color: var(--text-body) !important;
+}
+
+/* ---------- HR ---------- */
+body.dark-mode hr {
+    border-color: var(--border-default) !important;
+}
+
+/* ---------- TOAST dark ---------- */
+body.dark-mode .bg-\[\#37008a\]\/10 {
+    background-color: rgba(139, 92, 246, 0.15) !important;
+}
+
+body.dark-mode .border-\[\#37008a\]\/20 {
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+/* ---------- LOGIN PAGE ---------- */
+.login-root {
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.login-label {
+    color: var(--text-heading);
+}
+
+.login-muted {
+    color: var(--text-muted);
+}
+
+.login-muted:hover {
+    color: var(--text-body);
+}
+
+.login-hero-logo {
+    max-height: 3.5rem;
+    width: auto;
+    object-fit: contain;
+}
+
+.password-toggle {
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.password-toggle:hover {
+    color: var(--text-heading);
+    background-color: var(--bg-surface-alt);
+}
+
+body.dark-mode .login-hero-gradient img {
+    filter: brightness(1.08);
+}

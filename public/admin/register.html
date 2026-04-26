@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#f5f0ff', 100: '#ede5ff', 200: '#ddd0ff', 300: '#c4adff', 400: '#8b5cf6', 500: '#6d28d9', 600: '#37008a', 700: '#2e0071', 800: '#26005d', 900: '#1a0040' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="css/shared.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-slate-50 flex items-center justify-center p-4 py-12" x-data="registerApp()">
+    <button class="fixed top-4 right-4 dark-mode-toggle p-2.5 rounded-xl hover:bg-slate-100 text-slate-600 z-10" title="Tema değiştir">
+        <i class="ri-moon-line text-xl"></i>
+    </button>
+    <div class="w-full max-w-md">
+        <div class="card bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+            <div class="bg-gradient-to-br from-[#37008a] to-[#4d00a3] px-8 py-10 text-center">
+                <i class="ri-user-add-line text-4xl text-white/90 block mb-2"></i>
+                <h1 class="text-2xl font-bold text-white">Kayıt Ol</h1>
+                <p class="text-white/80 text-sm mt-1">Yeni hesap oluşturun</p>
+            </div>
+            <form @submit.prevent="handleRegister" class="p-8 space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Ad Soyad</label>
+                    <input type="text" x-model="name" @blur="validateName()"
+                        :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#37008a] focus:border-[#37008a] transition', errors.name ? 'border-red-500' : 'border-slate-200']"
+                        placeholder="Adınız Soyadınız">
+                    <p class="text-red-500 text-sm mt-1" x-show="errors.name" x-text="errors.name" x-cloak></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">E-posta</label>
+                    <input type="email" x-model="email" @blur="validateEmail()"
+                        :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#37008a] focus:border-[#37008a] transition', errors.email ? 'border-red-500' : 'border-slate-200']"
+                        placeholder="ornek@email.com">
+                    <p class="text-red-500 text-sm mt-1" x-show="errors.email" x-text="errors.email" x-cloak></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Şifre</label>
+                    <input type="password" x-model="password" @blur="validatePassword()"
+                        :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#37008a] focus:border-[#37008a] transition', errors.password ? 'border-red-500' : 'border-slate-200']"
+                        placeholder="En az 6 karakter">
+                    <p class="text-red-500 text-sm mt-1" x-show="errors.password" x-text="errors.password" x-cloak></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Şifre Tekrar</label>
+                    <input type="password" x-model="passwordConfirm" @blur="validatePasswordConfirm()"
+                        :class="['w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#37008a] focus:border-[#37008a] transition', errors.passwordConfirm ? 'border-red-500' : 'border-slate-200']"
+                        placeholder="Şifrenizi tekrar girin">
+                    <p class="text-red-500 text-sm mt-1" x-show="errors.passwordConfirm" x-text="errors.passwordConfirm" x-cloak></p>
+                </div>
+                <div>
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" x-model="agree" :class="['w-4 h-4 mt-1 rounded border-slate-300 text-[#37008a] focus:ring-[#37008a]', errors.agree && 'border-red-500']">
+                        <span class="text-sm text-slate-600"><a href="#" class="text-[#37008a] hover:underline">Kullanım şartlarını</a> ve <a href="#" class="text-[#37008a] hover:underline">gizlilik politikasını</a> kabul ediyorum.</span>
+                    </label>
+                    <p class="text-red-500 text-sm mt-1" x-show="errors.agree" x-cloak>Lütfen şartları kabul edin.</p>
+                </div>
+                <button type="submit" :disabled="loading"
+                    class="w-full py-3 bg-[#37008a] hover:bg-[#4d00a3] text-white font-medium rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <span x-show="!loading">Kayıt Ol</span>
+                    <span x-show="loading" x-cloak class="flex items-center gap-2">
+                        <i class="ri-loader-4-line animate-spin text-xl"></i>
+                        Kaydediliyor...
+                    </span>
+                </button>
+            </form>
+            <p class="text-center text-slate-500 text-sm pb-8">
+                Zaten hesabınız var mı? <a href="login.html" class="text-[#37008a] hover:text-[#4d00a3] font-medium">Giriş yapın</a>
+            </p>
+        </div>
+        <p class="text-center mt-6">
+            <a href="index.html" class="text-slate-400 hover:text-slate-600 text-sm flex items-center gap-1 justify-center"><i class="ri-arrow-left-line"></i> Ana sayfaya dön</a>
+        </p>
+    </div>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script>
+        function registerApp() {
+            return {
+                name: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                agree: false,
+                loading: false,
+                errors: {},
+                validateName() {
+                    if (!this.name.trim()) this.errors.name = 'Ad soyad zorunludur';
+                    else if (this.name.trim().length < 3) this.errors.name = 'En az 3 karakter girin';
+                    else delete this.errors.name;
+                },
+                validateEmail() {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!this.email) this.errors.email = 'E-posta zorunludur';
+                    else if (!re.test(this.email)) this.errors.email = 'Geçerli bir e-posta girin';
+                    else delete this.errors.email;
+                },
+                validatePassword() {
+                    if (!this.password) this.errors.password = 'Şifre zorunludur';
+                    else if (this.password.length < 6) this.errors.password = 'Şifre en az 6 karakter olmalı';
+                    else delete this.errors.password;
+                },
+                validatePasswordConfirm() {
+                    if (!this.passwordConfirm) this.errors.passwordConfirm = 'Şifre tekrarı zorunludur';
+                    else if (this.password !== this.passwordConfirm) this.errors.passwordConfirm = 'Şifreler eşleşmiyor';
+                    else delete this.errors.passwordConfirm;
+                },
+                handleRegister() {
+                    this.validateName();
+                    this.validateEmail();
+                    this.validatePassword();
+                    this.validatePasswordConfirm();
+                    if (!this.agree) { this.errors.agree = true; return; }
+                    else delete this.errors.agree;
+                    if (Object.keys(this.errors).length) return;
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

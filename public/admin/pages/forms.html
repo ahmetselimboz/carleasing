@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formlar - Admin Panel UI Kit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:{600:'#37008a'}}}}}</script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="../css/shared.css" rel="stylesheet">
+</head>
+<body class="bg-slate-50 min-h-screen" x-data="formApp()">
+    <div class="flex min-h-screen">
+        <aside class="sidebar page-sidebar fixed lg:static w-64 bg-white border-r border-slate-200 min-h-screen">
+            <div class="p-5 border-b border-slate-100">
+                <a href="../index.html" class="flex items-center gap-2">
+                    <i class="ri-palette-line text-xl text-[#37008a]"></i>
+                    <span class="font-bold text-slate-800">UI Kit</span>
+                </a>
+                <button class="dark-mode-toggle mt-3 p-2 rounded-lg hover:bg-slate-100 text-slate-600" title="Tema değiştir">
+                    <i class="ri-moon-line"></i>
+                </button>
+            </div>
+            <nav class="p-4">
+                <a href="index.html" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#37008a]/10 text-[#37008a] font-medium text-sm">
+                    <i class="ri-arrow-left-line"></i> Tüm Komponentler
+                </a>
+            </nav>
+        </aside>
+        <main class="flex-1 p-4 lg:p-8">
+            <nav class="mb-6 text-sm text-slate-500"><a href="index.html" class="hover:text-[#37008a]">Komponentler</a> / <span class="text-slate-800">Formlar</span></nav>
+            <h1 class="text-2xl font-bold text-slate-800 mb-2">Formlar</h1>
+            <p class="text-slate-600 mb-8">Kapsamlı form elementleri. Validasyon, input grupları, range, date, file.</p>
+
+            <div class="space-y-12">
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-input-method-line mr-2"></i>Text Input</h2>
+                    <div class="space-y-4 max-w-md">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Normal</label>
+                            <input type="text" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20 focus:border-[#37008a] transition-soft" placeholder="Placeholder metni">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Disabled</label>
+                            <input type="text" disabled class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 opacity-60" placeholder="Devre dışı" value="Değer">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Hata durumu</label>
+                            <input type="text" class="input-base w-full px-4 py-2.5 border border-red-500 rounded-xl ring-2 ring-red-200" value="ab">
+                            <p class="text-red-500 text-sm mt-1 flex items-center gap-1"><i class="ri-error-warning-line"></i> Geçerli bir değer girin</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Başarılı</label>
+                            <input type="text" class="input-base w-full px-4 py-2.5 border border-emerald-500 rounded-xl ring-2 ring-emerald-200" value="Geçerli giriş">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-input-cursor-move-line mr-2"></i>Input Group (Prefix/Suffix)</h2>
+                    <div class="space-y-4 max-w-md">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Para birimi</label>
+                            <div class="flex border border-slate-200 rounded-xl overflow-hidden">
+                                <span class="px-4 py-2.5 bg-slate-100 text-slate-600 border-r border-slate-200">₺</span>
+                                <input type="number" class="flex-1 px-4 py-2.5 focus:ring-2 focus:ring-[#37008a]/20 focus:outline-none" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">E-posta</label>
+                            <div class="flex border border-slate-200 rounded-xl overflow-hidden">
+                                <span class="px-4 py-2.5 bg-slate-100 text-slate-600 border-r border-slate-200"><i class="ri-mail-line"></i></span>
+                                <input type="email" class="flex-1 px-4 py-2.5 focus:ring-2 focus:ring-[#37008a]/20 focus:outline-none" placeholder="ornek@email.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Arama</label>
+                            <div class="flex border border-slate-200 rounded-xl overflow-hidden">
+                                <span class="px-4 py-2.5 bg-slate-100 text-slate-600 border-r border-slate-200"><i class="ri-search-line"></i></span>
+                                <input type="text" class="flex-1 px-4 py-2.5 focus:ring-2 focus:ring-[#37008a]/20 focus:outline-none" placeholder="Ara...">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-slider-line mr-2"></i>Range Slider</h2>
+                    <div class="max-w-md space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Fiyat aralığı: <span x-text="form.range || 50"></span>₺</label>
+                            <input type="range" x-model="form.range" min="0" max="100" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#37008a]">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-calendar-line mr-2"></i>Date & Time</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tarih</label>
+                            <input type="date" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Saat</label>
+                            <input type="time" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tarih-Saat</label>
+                            <input type="datetime-local" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-file-upload-line mr-2"></i>File Input</h2>
+                    <div class="space-y-4 max-w-md">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Dosya seç</label>
+                            <input type="file" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#37008a] file:text-white file:cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Çoklu dosya</label>
+                            <input type="file" multiple class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#37008a] file:text-white">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4"><i class="ri-checkbox-multiple-line mr-2"></i>Checkbox & Radio</h2>
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-[#37008a] focus:ring-[#37008a]">
+                                <span class="text-sm text-slate-700">Seçenek 1</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-[#37008a] focus:ring-[#37008a]">
+                                <span class="text-sm text-slate-700">Seçenek 2 (işaretli)</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" disabled class="w-4 h-4 rounded border-slate-300 opacity-50">
+                                <span class="text-sm text-slate-500">Devre dışı</span>
+                            </label>
+                        </div>
+                        <div class="flex flex-wrap gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="opt" class="w-4 h-4 border-slate-300 text-[#37008a] focus:ring-[#37008a]">
+                                <span class="text-sm">A</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="opt" checked class="w-4 h-4 border-slate-300 text-[#37008a] focus:ring-[#37008a]">
+                                <span class="text-sm">B</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="opt" class="w-4 h-4 border-slate-300 text-[#37008a] focus:ring-[#37008a]">
+                                <span class="text-sm">C</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                    <h2 class="text-lg font-semibold text-slate-800 mb-4">Validasyonlu Form</h2>
+                    <form @submit.prevent="handleSubmit" class="space-y-6 max-w-2xl">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Ürün Adı *</label>
+                                <input type="text" x-model="form.name" @blur="validate('name')"
+                                    :class="['input-base w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#37008a]/20', errors.name ? 'border-red-500' : 'border-slate-200']"
+                                    placeholder="Örn: Kablosuz Kulaklık">
+                                <p class="text-red-500 text-sm mt-1" x-show="errors.name" x-text="errors.name" x-cloak></p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Fiyat (₺) *</label>
+                                <input type="number" x-model="form.price" @blur="validate('price')"
+                                    :class="['input-base w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#37008a]/20', errors.price ? 'border-red-500' : 'border-slate-200']"
+                                    placeholder="0.00">
+                                <p class="text-red-500 text-sm mt-1" x-show="errors.price" x-text="errors.price" x-cloak></p>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">E-posta *</label>
+                            <input type="email" x-model="form.email" @blur="validate('email')"
+                                :class="['input-base w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-[#37008a]/20', errors.email ? 'border-red-500' : 'border-slate-200']"
+                                placeholder="ornek@email.com">
+                            <p class="text-red-500 text-sm mt-1" x-show="errors.email" x-text="errors.email" x-cloak></p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Açıklama</label>
+                            <textarea x-model="form.description" rows="4" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20 resize-none" placeholder="Ürün açıklaması..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Kategori</label>
+                            <select x-model="form.category" class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#37008a]/20 bg-white">
+                                <option value="">Seçiniz</option>
+                                <option value="elektronik">Elektronik</option>
+                                <option value="giyim">Giyim</option>
+                                <option value="ev">Ev & Yaşam</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="submit" class="px-6 py-2.5 bg-[#37008a] text-white rounded-xl hover:bg-[#4d00a3] transition-soft font-medium flex items-center gap-2">
+                                <i class="ri-save-line"></i> Kaydet
+                            </button>
+                            <button type="reset" @click="resetForm" class="px-6 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-soft font-medium">Sıfırla</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/app.js"></script>
+
+    <script>
+        function formApp() {
+            return {
+                form: { name: '', price: '', email: '', description: '', category: '', range: 50 },
+                errors: {},
+                validate(field) {
+                    this.errors[field] = '';
+                    if (field === 'name') {
+                        if (!this.form.name.trim()) this.errors.name = 'Ürün adı zorunludur';
+                        else if (this.form.name.length < 3) this.errors.name = 'En az 3 karakter';
+                    }
+                    if (field === 'price') {
+                        if (!this.form.price || this.form.price < 0) this.errors.price = 'Geçerli fiyat girin';
+                    }
+                    if (field === 'email') {
+                        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!this.form.email) this.errors.email = 'E-posta zorunludur';
+                        else if (!re.test(this.form.email)) this.errors.email = 'Geçerli e-posta girin';
+                    }
+                },
+                handleSubmit() {
+                    this.validate('name'); this.validate('price'); this.validate('email');
+                    if (Object.keys(this.errors).some(k => this.errors[k])) return;
+                    alert('Form başarıyla gönderildi!');
+                    this.resetForm();
+                },
+                resetForm() {
+                    this.form = { name: '', price: '', email: '', description: '', category: '', range: 50 };
+                    this.errors = {};
+                }
+            }
+        }
+    </script>
+</body>
+</html>
