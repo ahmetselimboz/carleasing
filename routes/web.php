@@ -16,6 +16,7 @@ use App\Http\Controllers\Manage\MessageController;
 use App\Http\Controllers\Manage\PageCategoryController;
 use App\Http\Controllers\Manage\PageController;
 use App\Http\Controllers\Manage\ReferenceController;
+use App\Http\Controllers\Manage\ReportController;
 use App\Http\Controllers\Manage\SliderController;
 use App\Http\Controllers\Manage\CarDownPaymentController;
 use App\Http\Controllers\Manage\CarDurationController;
@@ -45,6 +46,7 @@ Route::prefix('manage')->group(function (): void {
         Route::get('/', [ManageController::class, 'index'])->name('dashboard');
         Route::get('/settings', [ManageController::class, 'settings'])->name('settings');
         Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+        Route::post('/cache/clear', [ManageController::class, 'clearCache'])->name('cache.clear');
         Route::get('/menus', [ManageController::class, 'menus'])->name('menus.index');
         Route::post('/menus', [SettingsController::class, 'updateMenus'])->name('menus.update');
 
@@ -74,6 +76,10 @@ Route::prefix('manage')->group(function (): void {
         Route::resource('we-call-you', ManageWeCallYouController::class)
             ->only(['index', 'show', 'update', 'destroy'])
             ->parameters(['we-call-you' => 'we_call_you']);
+        Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+        Route::get('reports/export/{format}', [ReportController::class, 'export'])
+            ->whereIn('format', ['csv', 'excel', 'pdf'])
+            ->name('reports.export');
 
         Route::resource('sliders', SliderController::class)->except(['show']);
         Route::post('sliders/reorder', [SliderController::class, 'reorder'])->name('sliders.reorder');

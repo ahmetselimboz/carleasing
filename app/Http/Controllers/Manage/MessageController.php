@@ -35,6 +35,11 @@ class MessageController
     {
         $this->authorize('view', $message);
 
+        if ($message->read_at === null) {
+            $message->update(['read_at' => now()]);
+            $message->refresh();
+        }
+
         return view('admin.support.messages.show', [
             'message' => $message,
         ]);

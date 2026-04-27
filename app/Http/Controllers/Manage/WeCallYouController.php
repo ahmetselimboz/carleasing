@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Manage;
 
+use App\Models\CarDownPayment;
+use App\Models\CarDuration;
+use App\Models\CarKilometerOption;
+use App\Models\CarPackage;
 use App\Models\WeCallYou;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
@@ -37,10 +41,35 @@ class WeCallYouController
     {
         $this->authorize('view', $we_call_you);
 
+        if ($we_call_you->read_at === null) {
+            $we_call_you->update(['read_at' => now()]);
+            $we_call_you->refresh();
+        }
+
         $we_call_you->loadMissing('car');
+        $cfg = data_get($we_call_you->magicbox, 'config', []);
+
+        $configDisplay = [];
+
+        if (isset($cfg['package_id'])) {
+            $configDisplay['Paket'] = CarPackage::query()->whereKey((int) $cfg['package_id'])->value('name') ?? ('#'.$cfg['package_id']);
+        }
+        if (isset($cfg['duration_id'])) {
+            $months = CarDuration::query()->whereKey((int) $cfg['duration_id'])->value('months');
+            $configDisplay['Süre'] = $months ? ($months.' ay') : ('#'.$cfg['duration_id']);
+        }
+        if (isset($cfg['kilometer_id'])) {
+            $km = CarKilometerOption::query()->whereKey((int) $cfg['kilometer_id'])->value('kilometer');
+            $configDisplay['Yıllık km'] = $km ?? ('#'.$cfg['kilometer_id']);
+        }
+        if (isset($cfg['down_payment_id'])) {
+            $dp = CarDownPayment::query()->whereKey((int) $cfg['down_payment_id'])->value('amount');
+            $configDisplay['Peşinat'] = $dp ?? ('#'.$cfg['down_payment_id']);
+        }
 
         return view('admin.support.we-call-you.show', [
             'item' => $we_call_you,
+            'configDisplay' => $configDisplay,
         ]);
     }
 

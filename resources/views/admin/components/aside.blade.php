@@ -9,10 +9,7 @@
         'faqs.*',
     ]);
     $isReferences = request()->routeIs('references.*');
-    $isPagesRoot = request()->routeIs([
-        'pages.*',
-        'page-categories.*',
-    ]);
+    $isPagesRoot = request()->routeIs(['pages.*', 'page-categories.*']);
     $isFleet = request()->routeIs([
         'cars.*',
         'car-down-payments.*',
@@ -30,17 +27,21 @@
     $isSupport = request()->routeIs('messages.*');
     $isCallback = request()->routeIs('we-call-you.*');
     $isMenus = request()->routeIs('menus.*');
+    $isReports = request()->routeIs('reports.*');
 @endphp
 <aside
     class="sidebar fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-200 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out">
     <div class="flex flex-col h-full">
         <div class="p-5 border-b border-slate-100">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                <div class="h-14 w-14 rounded-md shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
-                    <img src="{{ $site['favicon_url'] }}" alt="Logo" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async">
+                <div
+                    class="h-14 w-14 rounded-md shadow-sm flex items-center justify-center overflow-hidden border border-slate-200">
+                    <img src="{{ $site['favicon_url'] }}" alt="Logo" class="h-full w-full object-cover" loading="eager"
+                        fetchpriority="high" decoding="async">
                 </div>
                 <div>
-                    <img src="{{ $site['logo_url'] }}" alt="Logo" class="h-10 w-auto drop-shadow-sm" loading="eager" fetchpriority="high" decoding="async">
+                    <img src="{{ $site['logo_url'] }}" alt="Logo" class="h-10 w-auto drop-shadow-sm" loading="eager"
+                        fetchpriority="high" decoding="async">
                     <p class="text-xs text-slate-500">Yönetim Paneli</p>
                 </div>
             </a>
@@ -52,7 +53,7 @@
                 <span>Anasayfa</span>
             </a>
             <div class="has-submenu {{ $isUsers ? 'open' : '' }}">
-                <a href="{{ route('users.index') }}"
+                <a href="#"
                     class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isUsers ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                     <i class="ri-user-3-line text-xl"></i>
                     <span>Kullanıcılar</span>
@@ -70,42 +71,26 @@
                 </div>
             </div>
             @can('viewAny', App\Models\RentalRequest::class)
-            <div class="has-submenu {{ $isOrders ? 'open' : '' }}">
-                <a href="#"
-                    class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isOrders ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
-                    <i class="ri-shopping-cart-2-line text-xl"></i>
-                    <span>Kiralama talepleri</span>
-                    <i class="ri-arrow-down-s-line ml-auto text-lg submenu-chevron"></i>
-                </a>
-                <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isOrders ? 'block' : 'hidden' }}">
-                    <a href="{{ route('rental-requests.index') }}"
-                        class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('rental-requests.*') && request()->input('status') !== 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Tüm
-                        talepler</a>
-                    <a href="{{ route('rental-requests.index', ['status' => 'pending']) }}"
-                        class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('rental-requests.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
-                </div>
-            </div>
-            @endcan
-            @can('viewAny', App\Models\WeCallYou::class)
-                <div class="has-submenu {{ $isCallback ? 'open' : '' }}">
+                <div class="has-submenu {{ $isOrders ? 'open' : '' }}">
                     <a href="#"
-                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isCallback ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
-                        <i class="ri-phone-find-line text-xl"></i>
-                        <span>Geri arama talepleri</span>
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isOrders ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                        <i class="ri-shopping-cart-2-line text-xl"></i>
+                        <span>Kiralama talepleri</span>
                         <i class="ri-arrow-down-s-line ml-auto text-lg submenu-chevron"></i>
                     </a>
-                    <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isCallback ? 'block' : 'hidden' }}">
-                        <a href="{{ route('we-call-you.index') }}"
-                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') !== 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Tüm
+                    <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isOrders ? 'block' : 'hidden' }}">
+                        <a href="{{ route('rental-requests.index') }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('rental-requests.*') && request()->input('status') !== 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Tüm
                             talepler</a>
-                        <a href="{{ route('we-call-you.index', ['status' => 'pending']) }}"
-                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
+                        <a href="{{ route('rental-requests.index', ['status' => 'pending']) }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('rental-requests.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
                     </div>
                 </div>
             @endcan
+
             @if (auth()->user()->can('viewAny', App\Models\Car::class))
                 <div class="has-submenu {{ $isFleet ? 'open' : '' }}">
-                    <a href="{{ route('cars.index') }}"
+                    <a href="#"
                         class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isFleet ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                         <i class="ri-car-line text-xl"></i>
                         <span>Filo</span>
@@ -116,28 +101,34 @@
                             <a href="{{ route('cars.index') }}"
                                 class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('cars.*') && !request()->routeIs(['cars.price-matrices.*', 'price-matrices.*']) ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Araçlar</a>
                             <a href="{{ route('car-down-payments.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-down-payments.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Peşinat seçenekleri</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-down-payments.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Peşinat
+                                seçenekleri</a>
                             <a href="{{ route('car-packages.index') }}"
                                 class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-packages.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Paketler</a>
                             <a href="{{ route('car-durations.index') }}"
                                 class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-durations.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Süreler</a>
                             <a href="{{ route('car-kilometer-options.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-kilometer-options.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Km seçenekleri</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-kilometer-options.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Km
+                                seçenekleri</a>
                             <a href="{{ route('car-extra-services.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-extra-services.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Ek hizmetler</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-extra-services.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Ek
+                                hizmetler</a>
                             <a href="{{ route('car-attribute-categories.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attribute-categories.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik kategorileri</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attribute-categories.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik
+                                kategorileri</a>
                             <a href="{{ route('car-attributes.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attributes.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik adları</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attributes.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik
+                                adları</a>
                             <a href="{{ route('car-attribute-values.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attribute-values.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik değerleri</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('car-attribute-values.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Özellik
+                                değerleri</a>
                         @endcan
                     </div>
                 </div>
             @endif
             @if (auth()->user()->can('viewAny', App\Models\Slider::class))
                 <div class="has-submenu {{ $isSite ? 'open' : '' }}">
-                    <a href="{{ route('sliders.index') }}"
+                    <a href="#"
                         class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isSite ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                         <i class="ri-layout-masonry-line text-xl"></i>
                         <span>Ana sayfa içerik</span>
@@ -146,11 +137,13 @@
                     <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isSite ? 'block' : 'hidden' }}">
                         @can('viewAny', App\Models\Slider::class)
                             <a href="{{ route('sliders.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('sliders.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Hero slayt</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('sliders.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Hero
+                                slayt</a>
                         @endcan
                         @can('viewAny', App\Models\HomeServiceTile::class)
                             <a href="{{ route('home-service-tiles.index') }}"
-                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('home-service-tiles.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Hizmet kutuları</a>
+                                class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('home-service-tiles.*') ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Hizmet
+                                kutuları</a>
                         @endcan
                         @can('viewAny', App\Models\HomePartner::class)
                             <a href="{{ route('home-partners.index') }}"
@@ -174,9 +167,10 @@
                     <span>Referanslar</span>
                 </a>
             @endcan
-            @if (auth()->user()->can('viewAny', App\Models\Page::class) || auth()->user()->can('viewAny', App\Models\PageCategory::class))
+            @if (auth()->user()->can('viewAny', App\Models\Page::class) ||
+                    auth()->user()->can('viewAny', App\Models\PageCategory::class))
                 <div class="has-submenu {{ $isPagesRoot ? 'open' : '' }}">
-                    <a href="{{ route('pages.index') }}"
+                    <a href="#"
                         class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isPagesRoot ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                         <i class="ri-file-list-3-line text-xl"></i>
                         <span>Sayfalar</span>
@@ -198,14 +192,31 @@
                     </div>
                 </div>
             @endif
-            <a href="#"
-                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition-soft">
+            <a href="{{ route('reports.index') }}"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isReports ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                 <i class="ri-bar-chart-box-line text-xl"></i>
                 <span>Raporlar</span>
             </a>
+            @can('viewAny', App\Models\WeCallYou::class)
+                <div class="has-submenu {{ $isCallback ? 'open' : '' }}">
+                    <a href="#"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isCallback ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                        <i class="ri-arrow-go-back-line text-xl"></i>
+                        <span>Geri ara</span>
+                        <i class="ri-arrow-down-s-line ml-auto text-lg submenu-chevron"></i>
+                    </a>
+                    <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isCallback ? 'block' : 'hidden' }}">
+                        <a href="{{ route('we-call-you.index') }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') !== 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Tüm
+                            talepler</a>
+                        <a href="{{ route('we-call-you.index', ['status' => 'pending']) }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
+                    </div>
+                </div>
+            @endcan
             @can('viewAny', App\Models\Message::class)
                 <div class="has-submenu {{ $isSupport ? 'open' : '' }}">
-                    <a href="{{ route('messages.index') }}"
+                    <a href="#"
                         class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isSupport ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
                         <i class="ri-customer-service-2-line text-xl"></i>
                         <span>Destek</span>
@@ -223,7 +234,7 @@
                     </div>
                 </div>
             @endcan
-         
+
             <div class="pt-4 mt-4 border-t border-slate-100 space-y-0.5">
                 <a href="{{ route('menus.index') }}"
                     class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition-soft {{ $isMenus ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : '' }}">

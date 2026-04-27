@@ -118,25 +118,15 @@
             </div>
         </div>
 
-        @php
-            $cfg = data_get($item->magicbox, 'config', []);
-        @endphp
-        @if (! empty($cfg))
+        @if (! empty($configDisplay))
             <div class="card bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-3">
                 <h3 class="font-semibold text-slate-800">Seçilen yapılandırma</h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                    @foreach ([
-                        'package_id' => 'Paket ID',
-                        'duration_id' => 'Süre ID',
-                        'kilometer_id' => 'Km ID',
-                        'down_payment_id' => 'Peşinat ID',
-                    ] as $key => $label)
-                        @if (isset($cfg[$key]))
-                            <div class="rounded-lg bg-slate-50 px-3 py-2">
-                                <p class="text-slate-500">{{ $label }}</p>
-                                <p class="font-bold text-slate-800">#{{ $cfg[$key] }}</p>
-                            </div>
-                        @endif
+                    @foreach ($configDisplay as $label => $value)
+                        <div class="rounded-lg bg-slate-50 px-3 py-2">
+                            <p class="text-slate-500">{{ $label }}</p>
+                            <p class="font-bold text-slate-800">{{ $value }}</p>
+                        </div>
                     @endforeach
                 </div>
             </div>

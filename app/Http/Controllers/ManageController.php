@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Models\Setting;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Artisan;
 
 class ManageController
 {
@@ -40,6 +42,17 @@ class ManageController
                 ->where('is_active', true)
                 ->orderBy('title')
                 ->get(['id', 'title', 'slug']),
+        ]);
+    }
+
+    public function clearCache(): RedirectResponse
+    {
+        Artisan::call('optimize:clear');
+
+        return back()->with('toast', [
+            'type' => 'success',
+            'title' => 'Önbellek temizlendi',
+            'message' => 'Sistem önbellekleri temizlendi.',
         ]);
     }
 }

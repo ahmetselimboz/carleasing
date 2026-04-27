@@ -13,11 +13,15 @@
                     class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#37008a]/20 focus:border-[#37008a] transition-soft">
                 </div> --}}
                <div class="flex items-center gap-2">
-                   <button type="button"
-                       class=" p-2.5 cursor-pointer rounded-xl hover:bg-slate-100 text-slate-600 transition-soft"
-                       data-tooltip="Önbelleği temizle" data-tooltip-position="bottom">
-                       <i class="ri-refresh-line text-xl"></i>
-                   </button>
+                   <form method="POST" action="{{ route('cache.clear') }}" class="inline-block"
+                       onsubmit="return confirm('Önbellek temizlensin mi?');">
+                       @csrf
+                       <button type="submit"
+                           class="p-2.5 cursor-pointer rounded-xl hover:bg-slate-100 text-slate-600 transition-soft"
+                           data-tooltip="Önbelleği temizle" data-tooltip-position="bottom">
+                           <i class="ri-refresh-line text-xl"></i>
+                       </button>
+                   </form>
                    <a href="{{ route('home') }}" target="_blank"
                        class="relative p-2.5 cursor-pointer rounded-xl hover:bg-slate-100 text-slate-600 transition-soft"
                        data-tooltip="Siteyi görüntüle" data-tooltip-position="bottom">
@@ -30,12 +34,62 @@
                        data-tooltip="Tema değiştir" data-tooltip-position="bottom">
                        <i class="ri-moon-line text-xl"></i>
                    </button>
-                   <button type="button"
-                       class="relative p-2.5 cursor-pointer rounded-xl hover:bg-slate-100 text-slate-600 transition-soft"
-                       data-tooltip="Bildirimler" data-tooltip-position="bottom">
-                       <i class="ri-notification-3-line text-xl"></i>
-                       <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-                   </button>
+                  @php
+                      $notificationTotal = data_get($adminNotifications ?? [], 'totalUnread', 0);
+                      $notificationItems = data_get($adminNotifications ?? [], 'items', collect());
+                      $notificationLinks = data_get($adminNotifications ?? [], 'links', []);
+                  @endphp
+                  <div class="relative" id="notification-dropdown">
+                      <button type="button" data-dropdown-toggle="#notification-menu"
+                          class="relative p-2.5 cursor-pointer rounded-xl hover:bg-slate-100 text-slate-600 transition-soft"
+                          data-tooltip="Bildirimler" data-tooltip-position="bottom">
+                          <i class="ri-notification-3-line text-xl"></i>
+                          @if ($notificationTotal > 0)
+                              <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                          @endif
+                      </button>
+                      <div id="notification-menu" data-dropdown
+                          class="hidden absolute right-0 mt-2 w-[360px] max-w-[90vw] bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
+                          <div class="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
+                              <p class="text-sm font-semibold text-slate-800">Bildirimler</p>
+                              @if ($notificationTotal > 0)
+                                  <span
+                                      class="inline-flex items-center px-2 py-1 text-[11px] rounded-full bg-red-50 text-red-600 border border-red-100">
+                                      {{ $notificationTotal }} yeni
+                                  </span>
+                              @endif
+                          </div>
+                          <div class="max-h-96 overflow-y-auto">
+                              @forelse ($notificationItems as $notification)
+                                  <a href="{{ $notification['url'] }}"
+                                      class="block px-4 py-3 hover:bg-slate-50 border-b border-slate-100/80 last:border-b-0">
+                                      <div class="flex items-start justify-between gap-3">
+                                          <div>
+                                              <p class="text-sm font-medium text-slate-800">{{ $notification['title'] }}</p>
+                                              <p class="text-xs text-slate-600 mt-0.5">{{ $notification['description'] }}</p>
+                                          </div>
+                                          <span class="text-[11px] text-slate-400 whitespace-nowrap">
+                                              {{ optional($notification['created_at'])->diffForHumans() }}
+                                          </span>
+                                      </div>
+                                  </a>
+                              @empty
+                                  <p class="px-4 py-8 text-sm text-center text-slate-500">Yeni bildirim bulunmuyor.</p>
+                              @endforelse
+                          </div>
+                          <div class="px-2 pt-2 border-t border-slate-100 grid grid-cols-1 gap-1">
+                              <a href="{{ data_get($notificationLinks, 'rentalRequests') }}"
+                                  class="text-xs px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">Kiralama taleplerini
+                                  görüntüle</a>
+                              <a href="{{ data_get($notificationLinks, 'messages') }}"
+                                  class="text-xs px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">İletişim mesajlarını
+                                  görüntüle</a>
+                              <a href="{{ data_get($notificationLinks, 'weCallYou') }}"
+                                  class="text-xs px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">Geri arama taleplerini
+                                  görüntüle</a>
+                          </div>
+                      </div>
+                  </div>
                </div>
            </div>
            <div class="flex items-center gap-3 pl-4 border-l border-slate-200">

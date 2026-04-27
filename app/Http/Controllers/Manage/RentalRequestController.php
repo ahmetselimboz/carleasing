@@ -35,6 +35,11 @@ class RentalRequestController
     {
         $this->authorize('view', $rental_request);
 
+        if ($rental_request->read_at === null) {
+            $rental_request->update(['read_at' => now()]);
+            $rental_request->refresh();
+        }
+
         $resolvedCars = $this->resolveRentalRequestCars($rental_request->cars);
 
         return view('admin.fleet.rental_requests.show', [

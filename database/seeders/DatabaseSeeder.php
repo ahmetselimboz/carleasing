@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         if (! app()->environment('production')) {
             $this->call(FleetDemoSeeder::class);
             $this->call(HomePageSeeder::class);
+            $this->call(ReportHeavyDataSeeder::class);
         }
     }
 }
