@@ -21,6 +21,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('jquery/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('jquery/slick-theme.css') }}">
+    {!! data_get($site, 'magicbox.google.analytics_tracking_code') !!}
+    {!! data_get($site, 'magicbox.inject.head') !!}
     @stack('styles')
     @yield('styles')
     <style>
@@ -59,11 +61,13 @@
     </style>
 </head>
 <body class="transition-colors duration-300">
+    {!! data_get($site, 'magicbox.inject.body') !!}
     @include('theme.v1.components.header')
     @yield('content')
     @include('theme.v1.components.footer')
     <script src="{{ asset('jquery/jquery.js') }}"></script>
     <script src="{{ asset('jquery/slick.js') }}"></script>
+    {!! data_get($site, 'magicbox.inject.footer') !!}
     @stack('scripts')
     @yield('scripts')
 </body>
