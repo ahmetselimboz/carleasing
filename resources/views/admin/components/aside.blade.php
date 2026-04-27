@@ -28,6 +28,7 @@
     ]);
     $isOrders = request()->routeIs('rental-requests.*');
     $isSupport = request()->routeIs('messages.*');
+    $isCallback = request()->routeIs('we-call-you.*');
     $isMenus = request()->routeIs('menus.*');
 @endphp
 <aside
@@ -84,6 +85,23 @@
                         class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('rental-requests.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
                 </div>
             </div>
+            @endcan
+            @can('viewAny', App\Models\WeCallYou::class)
+                <div class="has-submenu {{ $isCallback ? 'open' : '' }}">
+                    <a href="#"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-soft {{ $isCallback ? 'active text-brand bg-[var(--color-brand-soft)] font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                        <i class="ri-phone-find-line text-xl"></i>
+                        <span>Geri arama talepleri</span>
+                        <i class="ri-arrow-down-s-line ml-auto text-lg submenu-chevron"></i>
+                    </a>
+                    <div class="submenu pl-4 mt-1 space-y-0.5 {{ $isCallback ? 'block' : 'hidden' }}">
+                        <a href="{{ route('we-call-you.index') }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') !== 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Tüm
+                            talepler</a>
+                        <a href="{{ route('we-call-you.index', ['status' => 'pending']) }}"
+                            class="block px-4 py-2 rounded-lg text-sm {{ request()->routeIs('we-call-you.*') && request()->input('status') === 'pending' ? 'text-brand font-medium bg-[var(--color-brand-soft)]' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">Bekleyenler</a>
+                    </div>
+                </div>
             @endcan
             @if (auth()->user()->can('viewAny', App\Models\Car::class))
                 <div class="has-submenu {{ $isFleet ? 'open' : '' }}">

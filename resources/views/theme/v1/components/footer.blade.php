@@ -13,6 +13,44 @@
         'youtube' => ['label' => 'YouTube', 'icon' => 'ri-youtube-fill'],
         'tiktok' => ['label' => 'TikTok', 'icon' => 'ri-tiktok-fill'],
     ];
+
+    // Footer menusunu kolonlara cevir: her grup bir kolon, gruplanmamis ust seviye ogeler tek bir "Baglantilar" kolonu
+    $footerRowsRaw = data_get($mb, 'menus.footer', []);
+    $footerColumns = [];
+    $footerGroupIndex = [];
+    $footerLooseColumnIndex = null;
+    foreach ($footerRowsRaw as $row) {
+        $type = $row['type'] ?? 'custom';
+        $label = trim((string) ($row['label'] ?? ''));
+
+        if ($type === 'group') {
+            if ($label === '' || isset($footerGroupIndex[$label])) continue;
+            $footerColumns[] = ['label' => $label, 'items' => []];
+            $footerGroupIndex[$label] = array_key_last($footerColumns);
+            continue;
+        }
+
+        $url = trim((string) ($row['url'] ?? ''));
+        $parent = trim((string) ($row['parent'] ?? ''));
+        if ($label === '' && $url === '') continue;
+        $item = ['label' => $label, 'url' => $url];
+
+        if ($parent !== '') {
+            if (! isset($footerGroupIndex[$parent])) {
+                $footerColumns[] = ['label' => $parent, 'items' => []];
+                $footerGroupIndex[$parent] = array_key_last($footerColumns);
+            }
+            $footerColumns[$footerGroupIndex[$parent]]['items'][] = $item;
+        } else {
+            if ($footerLooseColumnIndex === null) {
+                $footerColumns[] = ['label' => 'Bağlantılar', 'items' => []];
+                $footerLooseColumnIndex = array_key_last($footerColumns);
+            }
+            $footerColumns[$footerLooseColumnIndex]['items'][] = $item;
+        }
+    }
+    // Bos kolonlari at
+    $footerColumns = array_values(array_filter($footerColumns, fn ($c) => ! empty($c['items'])));
 @endphp
 <footer class="bg-background-dark text-white pt-20 pb-10 px-6">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
@@ -53,23 +91,40 @@
                 </div>
             @endif
         </div>
-        <div>
-            <h5 class="font-bold mb-6 text-white">Hızlı bağlantılar</h5>
-            <ul class="space-y-4 text-sm text-slate-400">
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}">Ana sayfa</a></li>
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#filo">Filo</a></li>
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#sss">Sık sorulan sorular</a></li>
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#iletisim">İletişim</a></li>
-            </ul>
-        </div>
-        <div>
-            <h5 class="font-bold mb-6 text-white">Bilgi</h5>
-            <ul class="space-y-4 text-sm text-slate-400">
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#sss">SSS</a></li>
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#iletisim">Teklif ve danışmanlık</a></li>
-                <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#filo">Öne çıkan araçlar</a></li>
-            </ul>
-        </div>
+        @if (! empty($footerColumns))
+            @foreach ($footerColumns as $column)
+                <div>
+                    <h5 class="font-bold mb-6 text-white">{{ $column['label'] }}</h5>
+                    <ul class="space-y-4 text-sm text-slate-400">
+                        @foreach ($column['items'] as $item)
+                            <li>
+                                <a class="hover:text-white transition-colors" href="{{ $item['url'] ?: '#' }}">
+                                    {{ $item['label'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+        @else
+            <div>
+                <h5 class="font-bold mb-6 text-white">Hızlı bağlantılar</h5>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}">Ana sayfa</a></li>
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#filo">Filo</a></li>
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#sss">Sık sorulan sorular</a></li>
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#iletisim">İletişim</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-white">Bilgi</h5>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#sss">SSS</a></li>
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#iletisim">Teklif ve danışmanlık</a></li>
+                    <li><a class="hover:text-white transition-colors" href="{{ route('home') }}#filo">Öne çıkan araçlar</a></li>
+                </ul>
+            </div>
+        @endif
         <div id="iletisim">
             <h5 class="font-bold mb-6 text-white">İletişim</h5>
             <ul class="space-y-4 text-sm text-slate-400">

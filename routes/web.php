@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CarShowController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Manage\CarAttributeCategoryController;
 use App\Http\Controllers\Manage\CarAttributeController;
@@ -23,8 +25,10 @@ use App\Http\Controllers\Manage\CarPackageController;
 use App\Http\Controllers\Manage\CarPriceMatrixController;
 use App\Http\Controllers\Manage\RentalRequestController;
 use App\Http\Controllers\Manage\UserController;
+use App\Http\Controllers\Manage\WeCallYouController as ManageWeCallYouController;
 use App\Http\Controllers\ManageController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\WeCallYouController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manage')->group(function (): void {
@@ -67,6 +71,9 @@ Route::prefix('manage')->group(function (): void {
 
         Route::resource('rental-requests', RentalRequestController::class)->only(['index', 'show', 'update', 'destroy']);
         Route::resource('messages', MessageController::class)->only(['index', 'show', 'update', 'destroy']);
+        Route::resource('we-call-you', ManageWeCallYouController::class)
+            ->only(['index', 'show', 'update', 'destroy'])
+            ->parameters(['we-call-you' => 'we_call_you']);
 
         Route::resource('sliders', SliderController::class)->except(['show']);
         Route::post('sliders/reorder', [SliderController::class, 'reorder'])->name('sliders.reorder');
@@ -85,3 +92,9 @@ Route::prefix('manage')->group(function (): void {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/uzun-donem-arac-kiralama/{slug}', [CarShowController::class, 'show'])->name('cars.show');
+Route::get('/favoriler', [FavoriteController::class, 'index'])->name('favorites.index');
+Route::post('/favoriler/{car:slug}', [FavoriteController::class, 'store'])->name('favorites.store');
+Route::delete('/favoriler/{car:slug}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+Route::get('/biz-sizi-arayalim', [WeCallYouController::class, 'create'])->name('we-call-you.create');
+Route::post('/biz-sizi-arayalim', [WeCallYouController::class, 'store'])->name('we-call-you.store');

@@ -142,7 +142,8 @@
                 @foreach ($featuredCars as $car)
                     <div class="px-3">
                         <div class="group flex flex-col h-full p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/15 hover:border-primary/30">
-                            <div class="relative h-56 w-full rounded-xl overflow-hidden mb-5 bg-gradient-to-br from-slate-100 to-slate-200">
+                            <a href="{{ route('cars.show', $car->slug) }}"
+                                class="relative h-56 w-full rounded-xl overflow-hidden mb-5 bg-gradient-to-br from-slate-100 to-slate-200 block">
                                 @if ($url = $car->displayImageUrl())
                                     <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
                                         src="{{ $url }}" alt="{{ $car->title }}" loading="lazy" decoding="async">
@@ -157,10 +158,12 @@
                                         <i class="ri-price-tag-3-line"></i> Fırsat
                                     </span>
                                 @endif
-                            </div>
+                            </a>
 
                             <div class="flex justify-between items-start gap-3 mb-3">
-                                <h3 class="text-lg font-bold text-slate-900 leading-snug">{{ $car->title }}</h3>
+                                <h3 class="text-lg font-bold text-slate-900 leading-snug">
+                                    <a href="{{ route('cars.show', $car->slug) }}" class="hover:text-primary transition-colors">{{ $car->title }}</a>
+                                </h3>
                                 <div class="text-right shrink-0">
                                     @if ($priceCtx = $car->displayMonthlyPriceContext())
                                         <span class="text-[var(--color-primary)] font-black text-xl whitespace-nowrap leading-none">{{ $priceCtx['price'] }}</span>
@@ -189,9 +192,9 @@
                                 @endforeach
                             </div>
 
-                            <a href="#iletisim"
+                            <a href="{{ route('cars.show', $car->slug) }}"
                                 class="group/cta mt-auto w-full inline-flex items-center justify-center gap-1.5 bg-slate-100 text-[var(--color-primary)] py-3 rounded-xl font-bold transition-all duration-200 hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/40">
-                                Teklif iste
+                                İncele
                                 <i class="ri-arrow-right-line transition-transform duration-200 group-hover/cta:translate-x-1"></i>
                             </a>
                         </div>

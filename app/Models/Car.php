@@ -71,6 +71,14 @@ class Car extends Model
         return $this->hasMany(CarAttributePivot::class);
     }
 
+    /**
+     * @return HasMany<Favorite, $this>
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     /** public/storage altındaki göreli yol için tam URL (yoksa null). */
     public function imageUrl(): ?string
     {

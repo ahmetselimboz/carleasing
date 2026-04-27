@@ -24,10 +24,12 @@ use App\Models\CarPackage;
 use App\Models\CarPriceMatrix;
 use App\Models\RentalRequest;
 use App\Models\User;
+use App\Models\WeCallYou;
 use App\Policies\FleetManagementPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\RentalRequestPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WeCallYouPolicy;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +74,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(RentalRequest::class, RentalRequestPolicy::class);
         Gate::policy(Message::class, MessagePolicy::class);
+        Gate::policy(WeCallYou::class, WeCallYouPolicy::class);
 
         foreach ([Slider::class, Faq::class, HomeServiceTile::class, HomePartner::class, HomeTestimonial::class, Reference::class, PageCategory::class, Page::class] as $homeModel) {
             Gate::policy($homeModel, FleetManagementPolicy::class);

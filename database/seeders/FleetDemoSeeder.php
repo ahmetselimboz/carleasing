@@ -185,32 +185,45 @@ class FleetDemoSeeder extends Seeder
             magicbox: ['segment' => 'B-SUV', 'featured' => false],
         );
 
-        // --- Fiyat matrisi (araç başına anlamlı birkaç kombinasyon) ---
-        $matrixRows = [
-            [$corolla, $pkgFull, $d24, $km15, $dp15, '34.900 ₺'],
-            [$corolla, $pkgFull, $d36, $km20, $dp25, '31.200 ₺'],
-            [$corolla, $pkgFlex, $d24, $km10, $dp0, '29.750 ₺'],
-            [$passat, $pkgFull, $d24, $km15, $dp15, '42.500 ₺'],
-            [$passat, $pkgFull, $d36, $km15, $dp25, '38.900 ₺'],
-            [$passat, $pkgFlex, $d12, $km10, $dp0, '36.200 ₺'],
-            [$duster, $pkgFlex, $d24, $km15, $dp15, '28.100 ₺'],
-            [$duster, $pkgFlex, $d36, $km20, $dp0, '24.600 ₺'],
+        // --- Fiyat matrisi (tum kombinasyonlar) ---
+        $vehicles = [
+            $corolla,
+            $passat,
+            $duster,
         ];
+        $packages = [$pkgFull, $pkgFlex];
+        $durations = [$d12, $d24, $d36];
+        $kilometers = [$km10, $km15, $km20];
+        $downPayments = [$dp15, $dp25, $dp0];
 
-        foreach ($matrixRows as [$vehicle, $pkg, $dur, $km, $dp, $price]) {
-            CarPriceMatrix::query()->firstOrCreate(
-                [
-                    'car_id' => $vehicle->id,
-                    'car_package_id' => $pkg->id,
-                    'car_duration_id' => $dur->id,
-                    'car_kilometer_option_id' => $km->id,
-                    'car_down_payment_id' => $dp->id,
-                ],
-                [
-                    'monthly_price' => $price,
-                    'is_active' => true,
-                ]
-            );
+        foreach ($vehicles as $vehicle) {
+            foreach ($packages as $pkg) {
+                foreach ($durations as $dur) {
+                    foreach ($kilometers as $km) {
+                        foreach ($downPayments as $dp) {
+                            CarPriceMatrix::query()->updateOrCreate(
+                                [
+                                    'car_id' => $vehicle->id,
+                                    'car_package_id' => $pkg->id,
+                                    'car_duration_id' => $dur->id,
+                                    'car_kilometer_option_id' => $km->id,
+                                    'car_down_payment_id' => $dp->id,
+                                ],
+                                [
+                                    'monthly_price' => $this->calculateMatrixPrice(
+                                        car: $vehicle,
+                                        package: $pkg,
+                                        duration: $dur,
+                                        kilometer: $km,
+                                        downPayment: $dp,
+                                    ),
+                                    'is_active' => true,
+                                ]
+                            );
+                        }
+                    }
+                }
+            }
         }
 
         // --- Araç özellik pivotları ---
@@ -287,7 +300,7 @@ class FleetDemoSeeder extends Seeder
             ]
         );
 
-        $this->command?->info('Filo demo verisi hazır (katalog, 3 araç, fiyat matrisi, pivotlar, 2 örnek talep).');
+        $this->command?->info('Filo demo verisi hazır (katalog, 3 araç, tum fiyat kombinasyonlari, pivotlar, 2 örnek talep).');
     }
 
     /**
@@ -329,5 +342,53 @@ class FleetDemoSeeder extends Seeder
         }
 
         return $car;
+    }
+
+    private function calculateMatrixPrice(
+        Car $car,
+        CarPackage $package,
+        CarDuration $duration,
+        CarKilometerOption $kilometer,
+        CarDownPayment $downPayment,
+    ): string {
+        $basePriceBySlug = [
+            'toyota-corolla-15-hybrid' => 33250,
+            'vw-passat-16-tdi' => 40800,
+            'dacia-duster-15-dci' => 27100,
+        ];
+
+        $base = $basePriceBySlug[$car->slug] ?? 30000;
+
+        $packageAdjustment = $package->name === 'Tam Paket' ? 2200 : -1200;
+
+        $months = (int) $duration->months;
+        $durationAdjustment = match ($months) {
+            12 => 2800,
+            24 => 900,
+            36 => -1800,
+            default => 0,
+        };
+
+        $kmPerYear = (int) preg_replace('/\D+/', '', (string) $kilometer->kilometer);
+        $kilometerAdjustment = match ($kmPerYear) {
+            10000 => -1200,
+            15000 => 0,
+            20000 => 1700,
+            default => 0,
+        };
+
+        $downPaymentAdjustment = match ($downPayment->amount) {
+            '%25 Peşinat' => -1900,
+            '%15 Peşinat' => -700,
+            'Peşinatsız' => 1400,
+            default => 0,
+        };
+
+        $price = max(
+            15000,
+            $base + $packageAdjustment + $durationAdjustment + $kilometerAdjustment + $downPaymentAdjustment
+        );
+
+        return number_format($price, 0, ',', '.') . ' TL';
     }
 }

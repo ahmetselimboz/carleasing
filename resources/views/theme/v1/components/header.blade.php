@@ -1,4 +1,12 @@
 @php
+    $favoriteCount = \App\Models\Favorite::query()
+        ->when(
+            auth()->check(),
+            fn ($q) => $q->where('user_id', auth()->id()),
+            fn ($q) => $q->whereNull('user_id')->where('session_id', request()->session()->getId())
+        )
+        ->count();
+
     $siteTitle = $site['title'] ?? config('app.name');
     $mb = $site['magicbox'] ?? [];
     $socialNav = [
@@ -9,6 +17,40 @@
         'youtube' => ['label' => 'YouTube', 'icon' => 'ri-youtube-fill'],
         'tiktok' => ['label' => 'TikTok', 'icon' => 'ri-tiktok-fill'],
     ];
+
+    $buildMenuTree = function (array $rows): array {
+        $tree = [];
+        $groupIndex = [];
+        foreach ($rows as $row) {
+            $type = $row['type'] ?? 'custom';
+            $label = trim((string) ($row['label'] ?? ''));
+
+            if ($type === 'group') {
+                if ($label === '' || isset($groupIndex[$label])) continue;
+                $tree[] = ['type' => 'group', 'label' => $label, 'children' => []];
+                $groupIndex[$label] = array_key_last($tree);
+                continue;
+            }
+
+            $url = trim((string) ($row['url'] ?? ''));
+            $parent = trim((string) ($row['parent'] ?? ''));
+            if ($label === '' && $url === '') continue;
+            $item = ['type' => $type, 'label' => $label, 'url' => $url];
+
+            if ($parent !== '') {
+                if (! isset($groupIndex[$parent])) {
+                    $tree[] = ['type' => 'group', 'label' => $parent, 'children' => []];
+                    $groupIndex[$parent] = array_key_last($tree);
+                }
+                $tree[$groupIndex[$parent]]['children'][] = $item;
+            } else {
+                $tree[] = ['type' => 'item', 'label' => $label, 'url' => $url];
+            }
+        }
+        return $tree;
+    };
+
+    $navbarTree = $buildMenuTree(data_get($mb, 'menus.navbar', []));
 @endphp
 <nav class="fixed top-0 w-full z-50 px-6 py-4 h-18">
     <div class="max-w-7xl mx-auto glass rounded-xl px-6 py-3 flex items-center justify-between shadow-lg">
@@ -17,12 +59,52 @@
                 fetchpriority="high" decoding="async">
         </a>
         <div class="hidden md:flex items-center gap-8">
-            <a class="text-sm font-semibold hover:text-primary transition-colors" href="{{ route('home') }}">Ana sayfa</a>
-            <a class="text-sm font-semibold hover:text-primary transition-colors" href="{{ route('home') }}#filo">Filo</a>
-            <a class="text-sm font-semibold hover:text-primary transition-colors" href="{{ route('home') }}#sss">SSS</a>
-            <a class="text-sm font-semibold hover:text-primary transition-colors" href="{{ route('home') }}#iletisim">İletişim</a>
+            @if (empty($navbarTree))
+                <a class="text-sm font-semibold hover:text-primary transition-colors" href="{{ route('home') }}">Ana sayfa</a>
+            @else
+                @foreach ($navbarTree as $node)
+                    @if ($node['type'] === 'group')
+                        <div class="relative group">
+                            <button type="button"
+                                class="text-sm font-semibold hover:text-primary transition-colors inline-flex items-center gap-1">
+                                {{ $node['label'] }}
+                                <i class="ri-arrow-down-s-line text-base"></i>
+                            </button>
+                            @if (! empty($node['children']))
+                                <div
+                                    class="absolute left-1/2 -translate-x-1/2 top-full pt-3 min-w-[12rem] hidden group-hover:block z-50">
+                                    <ul
+                                        class="rounded-xl bg-[var(--color-card)] border border-[var(--color-border)] shadow-xl py-2">
+                                        @foreach ($node['children'] as $child)
+                                            <li>
+                                                <a href="{{ $child['url'] ?: '#' }}"
+                                                    class="block px-4 py-2 text-sm hover:bg-[var(--color-surface)] hover:text-primary transition-colors">
+                                                    {{ $child['label'] }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+                    @else
+                        <a class="text-sm font-semibold hover:text-primary transition-colors"
+                            href="{{ $node['url'] ?: '#' }}">{{ $node['label'] }}</a>
+                    @endif
+                @endforeach
+            @endif
         </div>
         <div class="flex items-center gap-4">
+            <a href="{{ route('favorites.index') }}"
+                class="relative flex items-center justify-center gap-2 w-10 h-10 rounded-md glass md:text-lg text-sm text-primary ui-transition ui-lift ui-soft"
+                data-tooltip="Favoriler" data-tooltip-position="bottom">
+                <i class="ri-heart-line"></i>
+                @if ($favoriteCount > 0)
+                    <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[var(--color-primary)] text-white text-[10px] font-bold inline-flex items-center justify-center">
+                        {{ $favoriteCount > 99 ? '99+' : $favoriteCount }}
+                    </span>
+                @endif
+            </a>
             <div class="h-6 border-l border-[var(--color-border)] hidden md:block"></div>
             <button id="openNavcanvas" type="button" data-tooltip="Menü" data-tooltip-position="bottom"
                 class="flex items-center justify-center cursor-pointer gap-2 w-10 h-10 rounded-md glass  md:text-lg text-sm text-primary ui-transition ui-lift ui-soft">
@@ -103,18 +185,55 @@
 
             <nav
                 class="flex flex-col  overflow-y-auto lg:max-h-[calc(100vh-15rem)] max-h-[calc(100vh-15rem)]">
-                @foreach ([
-        ['name' => 'Ana sayfa', 'url' => route('home')],
-        ['name' => 'Filo', 'url' => route('home').'#filo'],
-        ['name' => 'Sık sorulan sorular', 'url' => route('home').'#sss'],
-        ['name' => 'İletişim', 'url' => route('home').'#iletisim'],
-    ] as $item)
-                    <a href="{{ $item['url'] }}"
+                @if (empty($navbarTree))
+                    <a href="{{ route('home') }}"
                         class="flex items-center gap-2 px-3 py-3 hover:bg-[var(--color-surface)] transition-all duration-200 rounded-lg">
                         <i class="ri-arrow-right-s-line text-[var(--color-primary)]"></i>
-                        <span class="font-medium">{{ $item['name'] }}</span>
+                        <span class="font-medium">Ana sayfa</span>
                     </a>
-                @endforeach
+                @else
+                    @foreach ($navbarTree as $node)
+                        @if ($node['type'] === 'group')
+                            <details class="offnav-group group">
+                                <summary
+                                    class="list-none flex items-center justify-between gap-2 px-3 py-3 cursor-pointer hover:bg-[var(--color-surface)] transition-all duration-200 rounded-lg">
+                                    <span class="flex items-center gap-2 font-medium">
+                                        <i class="ri-folder-2-line text-[var(--color-primary)]"></i>
+                                        {{ $node['label'] }}
+                                    </span>
+                                    <i
+                                        class="ri-arrow-down-s-line text-[var(--color-muted)] transition-transform group-open:rotate-180"></i>
+                                </summary>
+                                @if (! empty($node['children']))
+                                    <div class="pl-3 mt-1 space-y-1 border-l border-[var(--color-border)] ml-4">
+                                        @foreach ($node['children'] as $child)
+                                            <a href="{{ $child['url'] ?: '#' }}"
+                                                class="flex items-center gap-2 px-3 py-2 text-sm hover:bg-[var(--color-surface)] transition-all duration-200 rounded-lg">
+                                                <i class="ri-arrow-right-s-line text-[var(--color-primary)]"></i>
+                                                <span>{{ $child['label'] }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </details>
+                        @else
+                            <a href="{{ $node['url'] ?: '#' }}"
+                                class="flex items-center gap-2 px-3 py-3 hover:bg-[var(--color-surface)] transition-all duration-200 rounded-lg">
+                                <i class="ri-arrow-right-s-line text-[var(--color-primary)]"></i>
+                                <span class="font-medium">{{ $node['label'] }}</span>
+                            </a>
+                        @endif
+                    @endforeach
+                @endif
+                <a href="{{ route('favorites.index') }}"
+                    class="flex items-center gap-2 px-3 py-3 mt-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-all duration-200 text-sm">
+                    <i class="ri-heart-line text-[var(--color-primary)]"></i>
+                    <span>Favorilerim
+                        @if ($favoriteCount > 0)
+                            ({{ $favoriteCount }})
+                        @endif
+                    </span>
+                </a>
                 <a href="{{ route('login') }}"
                     class="flex items-center gap-2 px-3 py-3 mt-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-all duration-200 text-sm">
                     <i class="ri-dashboard-line text-[var(--color-primary)]"></i>
