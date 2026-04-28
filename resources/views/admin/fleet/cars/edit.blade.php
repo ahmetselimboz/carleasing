@@ -73,6 +73,7 @@
                             class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand transition-soft">{{ old('description', $car->description) }}</textarea>
                     </div>
                     @include('admin.fleet.cars.partials.car-image-field', ['car' => $car])
+                    @include('admin.components.seo-fields', ['model' => $car])
                     @include('admin.fleet.cars.partials.magicbox-fields', ['mbRows' => $mbRows])
                     @error('magicbox')
                         <p class="text-red-500 text-sm">{{ $message }}</p>

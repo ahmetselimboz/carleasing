@@ -17,7 +17,13 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css">
     </noscript>
 
-    @yield('meta')
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        @include('theme.v1.components.meta')
+    @endif
+    @include('theme.v1.components.json-ld')
+    @stack('jsonld')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('jquery/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('jquery/slick-theme.css') }}">
@@ -65,6 +71,7 @@
     @include('theme.v1.components.header')
     @yield('content')
     @include('theme.v1.components.footer')
+    @include('theme.v1.components.toast')
     <script src="{{ asset('jquery/jquery.js') }}"></script>
     <script src="{{ asset('jquery/slick.js') }}"></script>
     {!! data_get($site, 'magicbox.inject.footer') !!}

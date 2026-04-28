@@ -1,12 +1,4 @@
 @php
-    $favoriteCount = \App\Models\Favorite::query()
-        ->when(
-            auth()->check(),
-            fn ($q) => $q->where('user_id', auth()->id()),
-            fn ($q) => $q->whereNull('user_id')->where('session_id', request()->session()->getId())
-        )
-        ->count();
-
     $siteTitle = $site['title'] ?? config('app.name');
     $mb = $site['magicbox'] ?? [];
     $socialNav = [
@@ -89,7 +81,9 @@
                         </div>
                     @else
                         <a class="text-sm font-semibold hover:text-primary transition-colors"
-                            href="{{ $node['url'] ?: '#' }}">{{ $node['label'] }}</a>
+                            href="/sayfa{{ $node['url'] ?: '#' }}">{{ $node['label'] }}</a>
+                        <a class="text-sm font-semibold hover:text-primary transition-colors"
+                            href="/biz-sizi-arayalim">İletişim</a>
                     @endif
                 @endforeach
             @endif
@@ -97,13 +91,11 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('favorites.index') }}"
                 class="relative flex items-center justify-center gap-2 w-10 h-10 rounded-md glass md:text-lg text-sm text-primary ui-transition ui-lift ui-soft"
-                data-tooltip="Favoriler" data-tooltip-position="bottom">
-                <i class="ri-heart-line"></i>
-                @if ($favoriteCount > 0)
-                    <span class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[var(--color-primary)] text-white text-[10px] font-bold inline-flex items-center justify-center">
-                        {{ $favoriteCount > 99 ? '99+' : $favoriteCount }}
-                    </span>
-                @endif
+                data-tooltip="Listem" data-tooltip-position="bottom">
+                <i class="ri-file-list-line"></i>
+                <span data-favorites-count-badge
+                    class="hidden absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-[var(--color-primary)] text-white text-[10px] font-bold items-center justify-center">
+                </span>
             </a>
             <div class="h-6 border-l border-[var(--color-border)] hidden md:block"></div>
             <button id="openNavcanvas" type="button" data-tooltip="Menü" data-tooltip-position="bottom"
@@ -228,11 +220,7 @@
                 <a href="{{ route('favorites.index') }}"
                     class="flex items-center gap-2 px-3 py-3 mt-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-all duration-200 text-sm">
                     <i class="ri-heart-line text-[var(--color-primary)]"></i>
-                    <span>Favorilerim
-                        @if ($favoriteCount > 0)
-                            ({{ $favoriteCount }})
-                        @endif
-                    </span>
+                    <span>Listem <span data-favorites-count-inline></span></span>
                 </a>
                 <a href="{{ route('login') }}"
                     class="flex items-center gap-2 px-3 py-3 mt-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface)] transition-all duration-200 text-sm">

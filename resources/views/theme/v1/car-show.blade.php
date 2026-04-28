@@ -1,10 +1,115 @@
 @extends('theme.v1.layout')
 
 @section('meta')
-    <title>{{ $car->title }} — {{ $site['title'] ?? config('app.name') }}</title>
-    <meta name="description"
-        content="{{ \Illuminate\Support\Str::limit(strip_tags($car->description ?? ''), 160) ?: $car->title.' uzun dönem araç kiralama fırsatı.' }}">
+    @php
+        $carSeo = data_get($car->magicbox ?? [], 'seo', []);
+        $carMetaTitle = trim((string) data_get($carSeo, 'meta_title', ''));
+        $carMetaDescription = trim((string) data_get($carSeo, 'meta_description', ''));
+        $carMonthly = $car->displayMonthlyPriceLabel();
+        $carDurationLabel = $car->displayMonthlyPriceDurationLabel();
+
+        $autoTitle = $carMetaTitle !== ''
+            ? $carMetaTitle
+            : $car->title.($carMonthly ? ' '.$carMonthly.' TL/Ay'.($carDurationLabel ? ' ('.$carDurationLabel.')' : '') : '').' Uzun Dönem Kiralama';
+
+        $autoDesc = $carMetaDescription !== ''
+            ? $carMetaDescription
+            : (\Illuminate\Support\Str::limit(strip_tags((string) $car->description), 155)
+                ?: ($car->title.' aracı için aylık ödeme, paket ve sözleşme süresi seçenekleriyle uzun dönem kiralama teklifi.'));
+    @endphp
+    @include('theme.v1.components.meta', [
+        'title' => $autoTitle,
+        'description' => $autoDesc,
+        'canonical' => route('cars.show', $car->slug),
+        'image' => $car->displayImageUrl(),
+        'ogType' => 'product',
+    ])
 @endsection
+
+@push('jsonld')
+    @php
+        $homeUrl = route('home');
+        $carUrl = route('cars.show', $car->slug);
+        $carImage = $car->displayImageUrl();
+
+        $priceCandidates = $car->priceMatrices->pluck('monthly_price')
+            ->filter(fn ($p) => is_numeric(preg_replace('/[^0-9.]/', '', (string) $p)))
+            ->map(fn ($p) => (float) preg_replace('/[^0-9.]/', '', (string) $p))
+            ->values();
+        $minPrice = $priceCandidates->min();
+        $maxPrice = $priceCandidates->max();
+
+        $vehicleNode = array_filter([
+            '@type' => 'Vehicle',
+            '@id' => $carUrl.'#vehicle',
+            'name' => $car->title,
+            'description' => strip_tags((string) $car->description),
+            'url' => $carUrl,
+            'image' => $carImage ?: null,
+            'brand' => $car->brand ? ['@type' => 'Brand', 'name' => $car->brand] : null,
+            'model' => $car->model ?: null,
+            'vehicleTransmission' => $car->transmission_type ?: null,
+            'fuelType' => $car->fuel_type ?: null,
+            'bodyType' => $car->body_type ?: null,
+        ], fn ($v) => $v !== null && $v !== '');
+
+        $offerNode = null;
+        if ($minPrice !== null) {
+            $offerNode = array_filter([
+                '@type' => $minPrice !== $maxPrice ? 'AggregateOffer' : 'Offer',
+                'priceCurrency' => 'TRY',
+                'lowPrice' => $minPrice !== $maxPrice ? $minPrice : null,
+                'highPrice' => $minPrice !== $maxPrice ? $maxPrice : null,
+                'price' => $minPrice === $maxPrice ? $minPrice : null,
+                'offerCount' => $priceCandidates->count(),
+                'availability' => 'https://schema.org/InStock',
+                'priceValidUntil' => now()->addMonths(3)->toDateString(),
+                'seller' => ['@id' => $homeUrl.'#organization'],
+                'url' => $carUrl,
+            ], fn ($v) => $v !== null);
+        }
+
+        $productNode = array_filter([
+            '@type' => 'Product',
+            '@id' => $carUrl.'#product',
+            'name' => $car->title,
+            'description' => strip_tags((string) $car->description),
+            'image' => $carImage ?: null,
+            'brand' => $car->brand ? ['@type' => 'Brand', 'name' => $car->brand] : null,
+            'category' => 'Uzun Dönem Araç Kiralama',
+            'offers' => $offerNode,
+        ], fn ($v) => $v !== null);
+
+        $breadcrumbNode = [
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Ana sayfa', 'item' => $homeUrl],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Uzun dönem kiralama', 'item' => $homeUrl.'#filo'],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $car->title, 'item' => $carUrl],
+            ],
+        ];
+
+        $faqEntries = ($faqs ?? collect())->map(fn ($f) => [
+            '@type' => 'Question',
+            'name' => (string) $f->question,
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => strip_tags((string) $f->answer),
+            ],
+        ])->all();
+
+        $carGraph = [$vehicleNode, $productNode, $breadcrumbNode];
+        if (! empty($faqEntries)) {
+            $carGraph[] = [
+                '@type' => 'FAQPage',
+                '@id' => $carUrl.'#faq',
+                'mainEntity' => $faqEntries,
+            ];
+        }
+        $carPayload = ['@context' => 'https://schema.org', '@graph' => $carGraph];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($carPayload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+@endpush
 
 @section('content')
     @php
@@ -111,29 +216,19 @@
                         </div>
 
                         <div class="p-6 space-y-3">
-                            @if (! empty($isFavorited))
-                                <form method="POST" action="{{ route('favorites.destroy', $car->slug) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-rose-50 hover:bg-rose-100 text-rose-700 py-3 rounded-xl font-semibold transition-all border border-rose-200">
-                                        <i class="ri-heart-fill text-base"></i>
-                                        Favorilerden kaldir
-                                    </button>
-                                </form>
-                            @else
-                                <form method="POST" action="{{ route('favorites.store', $car->slug) }}">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold transition-all border border-slate-200">
-                                        <i class="ri-heart-line text-base"></i>
-                                        Favorilere ekle
-                                    </button>
-                                </form>
-                            @endif
-                            <a id="hero-callme-link" href="{{ route('we-call-you.create', ['car' => $car->slug]) }}"
+                            <button type="button" data-favorite-toggle data-car-slug="{{ $car->slug }}"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold transition-all border border-slate-200">
+                                <i class="ri-heart-line text-base" data-favorite-icon></i>
+                                <span data-favorite-label>Listeye ekle</span>
+                            </button>
+                            <a id="hero-quote-link" href="{{ route('favorites.index') }}"
                                 class="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-600)] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/40">
-                                <i class="ri-phone-fill text-lg"></i>
+                                <i class="ri-send-plane-fill text-lg"></i>
+                                Listeye git
+                            </a>
+                            <a id="hero-callme-link" href="{{ route('we-call-you.create', ['car' => $car->slug]) }}"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-white border-2 border-[var(--color-primary)]/20 hover:border-[var(--color-primary)] text-[var(--color-primary)] py-3 rounded-xl font-semibold transition-all">
+                                <i class="ri-phone-fill text-base"></i>
                                 Biz sizi arayalım
                             </a>
                             @if (filled($contactPhone))
@@ -444,13 +539,17 @@
                             </div>
                             <p class="text-[11px] text-slate-500 mb-4">+ KDV · konfigürasyon değiştikçe güncellenir</p>
 
-                            <a id="callme-link" href="{{ route('we-call-you.create', ['car' => $car->slug]) }}"
+                            <a id="cta-quote-link" href="{{ route('favorites.index') }}"
                                 class="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-600)] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-[var(--color-primary)]/30 hover:shadow-xl hover:shadow-[var(--color-primary)]/45">
-                                <i class="ri-phone-fill"></i> Beni arayın
+                                <i class="ri-send-plane-fill"></i> Listeye git
+                            </a>
+                            <a id="callme-link" href="{{ route('we-call-you.create', ['car' => $car->slug]) }}"
+                                class="mt-2 w-full inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold transition-all text-sm">
+                                <i class="ri-phone-fill"></i> Biz sizi arayalım
                             </a>
                             @if (filled($contactPhone))
                                 <a href="tel:{{ preg_replace('/\s+/', '', $contactPhone) }}"
-                                    class="mt-2 w-full inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 rounded-xl font-semibold transition-all text-sm">
+                                    class="mt-2 w-full inline-flex items-center justify-center gap-2 text-slate-600 hover:text-[var(--color-primary)] py-2 rounded-xl font-medium transition-all text-sm">
                                     <i class="ri-phone-line"></i> {{ $contactPhone }}
                                 </a>
                             @endif
@@ -582,6 +681,7 @@
             const $summaryExtras = document.getElementById('summary-extras');
             const callmeBaseUrl = @json(route('we-call-you.create'));
             const carSlug = @json($car->slug);
+            const FAVORITES_KEY = 'carleasing:favorites';
             const callmeLinks = ['callme-link', 'hero-callme-link', 'mobile-callme-link']
                 .map(id => document.getElementById(id))
                 .filter(Boolean);
@@ -598,6 +698,40 @@
             const formatPrice = (amount) => {
                 if (amount == null) return 'Teklif alın';
                 return fmtTL.format(Math.round(amount));
+            };
+            const getFavorites = () => {
+                try {
+                    const parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+                    return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+                } catch (err) {
+                    return [];
+                }
+            };
+            const setFavorites = (favorites) => {
+                localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(new Set(favorites))));
+                window.dispatchEvent(new CustomEvent('favorites:changed'));
+            };
+            const setFavoriteButtonState = () => {
+                const button = document.querySelector('[data-favorite-toggle]');
+                if (!button) return;
+                const icon = button.querySelector('[data-favorite-icon]');
+                const label = button.querySelector('[data-favorite-label]');
+                const isFavorite = getFavorites().includes(carSlug);
+                button.classList.toggle('bg-rose-50', isFavorite);
+                button.classList.toggle('hover:bg-rose-100', isFavorite);
+                button.classList.toggle('text-rose-700', isFavorite);
+                button.classList.toggle('border-rose-200', isFavorite);
+                button.classList.toggle('bg-slate-100', !isFavorite);
+                button.classList.toggle('hover:bg-slate-200', !isFavorite);
+                button.classList.toggle('text-slate-800', !isFavorite);
+                button.classList.toggle('border-slate-200', !isFavorite);
+                if (icon) {
+                    icon.classList.toggle('ri-heart-fill', isFavorite);
+                    icon.classList.toggle('ri-heart-line', !isFavorite);
+                }
+                if (label) {
+                    label.textContent = isFavorite ? 'Listeden cikar' : 'Listeye ekle';
+                }
             };
 
             const getLabel = (name) => {
@@ -616,6 +750,7 @@
 
             const getSelectedExtras = () => {
                 return Array.from(document.querySelectorAll('[name="extras[]"]:checked')).map(el => ({
+                    id: Number(el.value),
                     name: el.dataset.extraName || 'Ek hizmet',
                     price: toNumber(el.dataset.extraPrice) || 0,
                 }));
@@ -683,7 +818,6 @@
                 if ($summaryDuration) $summaryDuration.textContent = getLabel('cfg_duration');
                 if ($summaryKilometer) $summaryKilometer.textContent = getLabel('cfg_kilometer');
                 if ($summaryDownPayment) $summaryDownPayment.textContent = getLabel('cfg_down_payment');
-
                 if ($summaryExtrasRow && $summaryExtras) {
                     if (extras.length > 0) {
                         $summaryExtrasRow.classList.remove('hidden');
@@ -693,7 +827,6 @@
                         $summaryExtras.textContent = '-';
                     }
                 }
-
                 const url = buildCallmeUrl(sel);
                 callmeLinks.forEach(a => { a.href = url; });
             };
@@ -701,6 +834,16 @@
             document.querySelectorAll('[name="cfg_package"], [name="cfg_duration"], [name="cfg_kilometer"], [name="cfg_down_payment"], [name="extras[]"]').forEach(el => {
                 el.addEventListener('change', update);
             });
+            document.querySelector('[data-favorite-toggle]')?.addEventListener('click', () => {
+                const favorites = getFavorites();
+                const next = favorites.includes(carSlug)
+                    ? favorites.filter(item => item !== carSlug)
+                    : [...favorites, carSlug];
+                setFavorites(next);
+                setFavoriteButtonState();
+            });
+            window.addEventListener('storage', setFavoriteButtonState);
+            window.addEventListener('favorites:changed', setFavoriteButtonState);
 
             // Spec tabs
             document.querySelectorAll('[data-spec-tab]').forEach(btn => {
@@ -719,6 +862,7 @@
             });
 
             update();
+            setFavoriteButtonState();
         })();
     </script>
 @endpush

@@ -31,7 +31,7 @@ class StorePageRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'page_category_id' => ['required', 'integer', 'exists:page_categories,id'],
             'is_active' => ['sometimes', 'boolean'],
-            'magicbox' => ['nullable', 'json'],
+            'magicbox' => ['nullable', 'array'],
         ];
     }
 }

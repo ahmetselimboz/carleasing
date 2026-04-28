@@ -25,7 +25,8 @@
                     @enderror
                 </div>
 
-           
+                @include('admin.components.seo-fields', ['model' => $category])
+
                 <div class="flex flex-wrap items-center gap-6">
                     <label class="inline-flex items-center gap-3 cursor-pointer">
                         <input type="checkbox" name="is_active" value="1" class="sr-only peer"

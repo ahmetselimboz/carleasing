@@ -52,12 +52,21 @@
                           class="hidden absolute right-0 mt-2 w-[360px] max-w-[90vw] bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50">
                           <div class="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
                               <p class="text-sm font-semibold text-slate-800">Bildirimler</p>
-                              @if ($notificationTotal > 0)
-                                  <span
-                                      class="inline-flex items-center px-2 py-1 text-[11px] rounded-full bg-red-50 text-red-600 border border-red-100">
-                                      {{ $notificationTotal }} yeni
-                                  </span>
-                              @endif
+                              <div class="flex items-center gap-2">
+                                  @if ($notificationTotal > 0)
+                                      <span
+                                          class="inline-flex items-center px-2 py-1 text-[11px] rounded-full bg-red-50 text-red-600 border border-red-100">
+                                          {{ $notificationTotal }} yeni
+                                      </span>
+                                      <form method="POST" action="{{ route('notifications.mark-all-read') }}">
+                                          @csrf
+                                          <button type="submit"
+                                              class="inline-flex items-center px-2.5 py-1 text-[11px] rounded-full bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200 transition-soft">
+                                              Tümünü okundu yap
+                                          </button>
+                                      </form>
+                                  @endif
+                              </div>
                           </div>
                           <div class="max-h-96 overflow-y-auto">
                               @forelse ($notificationItems as $notification)

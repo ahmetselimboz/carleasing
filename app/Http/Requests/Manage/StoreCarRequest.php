@@ -15,11 +15,14 @@ class StoreCarRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $mbArray = MagicboxForm::toStorage($this->input('mb')) ?? [];
+        $directMb = $this->input('magicbox');
+
         $this->merge([
             'is_active' => $this->boolean('is_active'),
             'status' => $this->boolean('status'),
             'home_featured' => $this->boolean('home_featured'),
-            'magicbox' => MagicboxForm::toStorage($this->input('mb')),
+            'magicbox' => array_replace_recursive($mbArray, is_array($directMb) ? $directMb : []),
         ]);
     }
 

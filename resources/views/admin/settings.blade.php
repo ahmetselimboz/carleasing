@@ -251,7 +251,8 @@
                             <div>
                                 <p class="text-sm font-medium text-slate-800">Google'da görünme</p>
                                 <p class="text-xs text-slate-500 mt-0.5">Açık olduğunda sayfalar arama motorlarında
-                                    görünebilir.</p>
+                                    görünebilir; kapalıyken tüm sayfalara <code>noindex,nofollow</code> uygulanır ve
+                                    robots.txt tüm taramayı engeller.</p>
                             </div>
                             <div class="flex items-center gap-3 shrink-0">
                                 <span class="text-sm text-slate-600">{{ $allowIndexOn ? 'Görünür' : 'Gizli' }}</span>
@@ -267,6 +268,24 @@
                         @error('magicbox.seo.allow_indexing')
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="mb_seo_locale" class="block text-sm font-medium text-slate-700 mb-2">İçerik dili (HTML lang)</label>
+                                <input type="text" name="magicbox[seo][locale]" id="mb_seo_locale"
+                                    class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                    value="{{ old('magicbox.seo.locale', data_get($m, 'seo.locale', 'tr-TR')) }}"
+                                    placeholder="tr-TR">
+                            </div>
+                            <div>
+                                <label for="mb_seo_oglocale" class="block text-sm font-medium text-slate-700 mb-2">Open Graph dili</label>
+                                <input type="text" name="magicbox[seo][og_locale]" id="mb_seo_oglocale"
+                                    class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                    value="{{ old('magicbox.seo.og_locale', data_get($m, 'seo.og_locale', 'tr_TR')) }}"
+                                    placeholder="tr_TR">
+                            </div>
+                        </div>
+
                         <div>
                             <label for="mb_seo_keywords" class="block text-sm font-medium text-slate-700 mb-2">Anahtar
                                 kelimeler (isteğe bağlı)</label>
@@ -279,7 +298,101 @@
                                 arama açıklaması</label>
                             <textarea name="magicbox[seo][default_meta_description]" id="mb_seo_desc" rows="4"
                                 class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand/20 resize-none text-sm"
-                                placeholder="Arama sonuçlarında görünen özet metin.">{{ old('magicbox.seo.default_meta_description', data_get($m, 'seo.default_meta_description')) }}</textarea>
+                                maxlength="320"
+                                placeholder="Arama sonuçlarında görünen özet metin (tercihen 150-160 karakter).">{{ old('magicbox.seo.default_meta_description', data_get($m, 'seo.default_meta_description')) }}</textarea>
+                        </div>
+
+                        {{-- Search engine verification --}}
+                        <div class="rounded-xl border border-slate-100 bg-white p-5 space-y-4 shadow-sm">
+                            <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                                <i class="ri-shield-check-line text-brand"></i> Arama motoru doğrulamaları
+                            </h3>
+                            <p class="text-xs text-slate-500">Search Console / Bing / Yandex panellerinden aldığınız doğrulama kodlarını yapıştırın. Sadece <code>content="..."</code> içindeki değeri kopyalayın.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="mb_seo_gsc" class="block text-sm font-medium text-slate-700 mb-2">Google Search Console</label>
+                                    <input type="text" name="magicbox[seo][google_site_verification]" id="mb_seo_gsc"
+                                        class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                        value="{{ old('magicbox.seo.google_site_verification', data_get($m, 'seo.google_site_verification')) }}"
+                                        placeholder="abc123...">
+                                </div>
+                                <div>
+                                    <label for="mb_seo_bing" class="block text-sm font-medium text-slate-700 mb-2">Bing Webmaster</label>
+                                    <input type="text" name="magicbox[seo][bing_site_verification]" id="mb_seo_bing"
+                                        class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                        value="{{ old('magicbox.seo.bing_site_verification', data_get($m, 'seo.bing_site_verification')) }}">
+                                </div>
+                                <div>
+                                    <label for="mb_seo_yandex" class="block text-sm font-medium text-slate-700 mb-2">Yandex Webmaster</label>
+                                    <input type="text" name="magicbox[seo][yandex_verification]" id="mb_seo_yandex"
+                                        class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                        value="{{ old('magicbox.seo.yandex_verification', data_get($m, 'seo.yandex_verification')) }}">
+                                </div>
+                                <div>
+                                    <label for="mb_seo_twitter" class="block text-sm font-medium text-slate-700 mb-2">Twitter/X kullanıcı adı</label>
+                                    <input type="text" name="magicbox[seo][twitter_handle]" id="mb_seo_twitter"
+                                        class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-mono"
+                                        value="{{ old('magicbox.seo.twitter_handle', data_get($m, 'seo.twitter_handle')) }}"
+                                        placeholder="@hesapadiniz">
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- OG image --}}
+                        <div class="rounded-xl border border-slate-100 bg-white p-5 space-y-4 shadow-sm">
+                            <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                                <i class="ri-image-2-line text-brand"></i> Sosyal paylaşım görseli (Open Graph)
+                            </h3>
+                            <p class="text-xs text-slate-500">Bireysel sayfa görseli yoksa kullanılır. 1200×630 px tercih edilir; PNG/JPG/WEBP.</p>
+                            @php
+                                $ogImagePath = data_get($m, 'seo.og_image');
+                                $ogImageUrl = $ogImagePath ? asset('storage/'.$ogImagePath) : null;
+                            @endphp
+                            <div class="flex flex-col lg:flex-row gap-6 lg:items-start">
+                                <div class="shrink-0">
+                                    <div class="w-full max-w-[260px] aspect-[1200/630] rounded-xl border-2 border-dashed border-slate-200 bg-white flex items-center justify-center overflow-hidden">
+                                        @if ($ogImageUrl)
+                                            <img src="{{ $ogImageUrl }}" alt="" class="w-full h-full object-cover">
+                                        @else
+                                            <div class="text-center p-4 text-slate-400">
+                                                <i class="ri-image-2-line text-4xl block mb-2"></i>
+                                                <span class="text-xs">Önizleme yok</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0 space-y-3">
+                                    <input type="file" name="magicbox[seo][og_image]" accept="image/*"
+                                        class="input-base w-full px-4 py-2.5 border border-slate-200 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-brand-solid file:text-white file:cursor-pointer text-sm">
+                                    @error('magicbox.seo.og_image')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                    @if ($ogImagePath)
+                                        <p class="text-xs text-slate-500 break-all">Mevcut dosya: <code class="bg-white px-1 rounded border border-slate-200">{{ $ogImagePath }}</code></p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Sitemap helper --}}
+                        <div class="rounded-xl border border-slate-100 bg-slate-50/80 p-5 space-y-2">
+                            <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
+                                <i class="ri-sitemap-line text-brand"></i> Sitemap & robots
+                            </h3>
+                            <p class="text-xs text-slate-500">Site haritası sayfa eklendiğinde otomatik güncellenir. Search Console'da aşağıdaki URL'i ekleyin:</p>
+                            <div class="text-sm font-mono break-all bg-white px-3 py-2 rounded border border-slate-200">
+                                {{ url('/sitemap.xml') }}
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <a href="{{ url('/sitemap.xml') }}" target="_blank" rel="noopener"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs hover:bg-slate-100">
+                                    <i class="ri-external-link-line"></i> sitemap.xml
+                                </a>
+                                <a href="{{ url('/robots.txt') }}" target="_blank" rel="noopener"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs hover:bg-slate-100">
+                                    <i class="ri-external-link-line"></i> robots.txt
+                                </a>
+                            </div>
                         </div>
 
                         <div

@@ -125,13 +125,17 @@ class PageCategoryController
     /**
      * @return array<mixed>|null
      */
-    private function parseMagicbox(?string $value): ?array
+    private function parseMagicbox(mixed $value): ?array
     {
-        if ($value === null || trim($value) === '') {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if ($value === null || trim((string) $value) === '') {
             return null;
         }
 
-        $decoded = json_decode($value, true);
+        $decoded = json_decode((string) $value, true);
 
         return is_array($decoded) ? $decoded : null;
     }

@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             $this->call(FleetDemoSeeder::class);
             $this->call(HomePageSeeder::class);
             $this->call(ReportHeavyDataSeeder::class);
+            $this->call(PageSeeder::class);
+            $this->call(ReferenceSeeder::class);
+            $this->call(SettingsMenuSeeder::class);
         }
     }
 }

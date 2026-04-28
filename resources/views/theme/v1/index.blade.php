@@ -1,9 +1,61 @@
 @extends('theme.v1.layout')
 
 @section('meta')
-    <title>{{ $site['title'] ?? config('app.name') }} — Filo kiralama</title>
-    <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($site['description'] ?? ''), 160) }}">
+    @include('theme.v1.components.meta', [
+        'title' => ($site['title'] ?? config('app.name')).' — Uzun Dönem Araç Kiralama',
+        'description' => $site['magicbox']['seo']['default_meta_description']
+            ?? ($site['description'] ?? 'Kurumsal ve bireysel uzun dönem araç kiralama, filo yönetimi ve operasyonel kiralama çözümleri.'),
+        'canonical' => route('home'),
+        'ogType' => 'website',
+    ])
 @endsection
+
+@push('jsonld')
+    @php
+        $homeUrl = route('home');
+        $faqEntries = ($faqs ?? collect())->map(fn ($f) => [
+            '@type' => 'Question',
+            'name' => (string) $f->question,
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => strip_tags((string) $f->answer),
+            ],
+        ])->all();
+
+        $vehicleListItems = ($featuredCars ?? collect())->values()->map(function ($car, $idx) {
+            return [
+                '@type' => 'ListItem',
+                'position' => $idx + 1,
+                'url' => route('cars.show', $car->slug),
+                'name' => $car->title,
+            ];
+        })->all();
+
+        $homeGraph = [];
+        if (! empty($faqEntries)) {
+            $homeGraph[] = [
+                '@type' => 'FAQPage',
+                '@id' => $homeUrl.'#faq',
+                'mainEntity' => $faqEntries,
+            ];
+        }
+        if (! empty($vehicleListItems)) {
+            $homeGraph[] = [
+                '@type' => 'ItemList',
+                '@id' => $homeUrl.'#fleet',
+                'name' => 'Öne çıkan filo araçları',
+                'itemListElement' => $vehicleListItems,
+            ];
+        }
+        $homePayload = [
+            '@context' => 'https://schema.org',
+            '@graph' => $homeGraph,
+        ];
+    @endphp
+    @if (! empty($homeGraph))
+        <script type="application/ld+json">{!! json_encode($homePayload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endif
+@endpush
 
 @push('styles')
     <style>

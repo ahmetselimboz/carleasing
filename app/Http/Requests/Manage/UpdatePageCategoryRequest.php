@@ -29,7 +29,7 @@ class UpdatePageCategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:180'],
             'is_active' => ['sometimes', 'boolean'],
-            'magicbox' => ['nullable', 'json'],
+            'magicbox' => ['nullable', 'array'],
         ];
     }
 }

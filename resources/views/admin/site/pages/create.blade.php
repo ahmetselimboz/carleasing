@@ -59,7 +59,7 @@
                     @enderror
                 </div>
 
-            
+                @include('admin.components.seo-fields', ['model' => null])
 
                 <div class="flex flex-wrap items-center gap-6">
                     <label class="inline-flex items-center gap-3 cursor-pointer">

@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Disallow: /manage/
+Disallow: /listem
+Disallow: /liste/
+Disallow: /biz-sizi-arayalim
+Disallow: /uzun-donem-arac-kiralama/*/teklif-gonder
+Disallow: /sayfa/*?*
+Allow: /
+
+Sitemap: /sitemap.xml

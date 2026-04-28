@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\CarExtraService;
 use App\Models\Faq;
-use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -68,15 +67,6 @@ class CarShowController
         $durations = $car->priceMatrices->pluck('duration')->filter()->unique('id')->sortBy('months')->values();
         $kilometers = $car->priceMatrices->pluck('kilometerOption')->filter()->unique('id')->sortBy('kilometer')->values();
         $downPayments = $car->priceMatrices->pluck('downPayment')->filter()->unique('id')->sortBy('amount')->values();
-        $visitorFavoriteQuery = Favorite::query()->where('car_id', $car->id);
-        if ($request->user()) {
-            $visitorFavoriteQuery->where('user_id', $request->user()->id);
-        } else {
-            $visitorFavoriteQuery
-                ->whereNull('user_id')
-                ->where('session_id', $request->session()->getId());
-        }
-        $isFavorited = $visitorFavoriteQuery->exists();
 
         return view('theme.v1.car-show', compact(
             'car',
@@ -89,7 +79,6 @@ class CarShowController
             'durations',
             'kilometers',
             'downPayments',
-            'isFavorited',
         ));
     }
 }

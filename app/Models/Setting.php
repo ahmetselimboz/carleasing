@@ -38,6 +38,12 @@ class Setting extends Model
      */
     public function toShareableArray(): array
     {
+        $magicbox = $this->magicbox ?? [];
+        $ogImage = (string) data_get($magicbox, 'seo.og_image', '');
+        if ($ogImage !== '') {
+            data_set($magicbox, 'seo.og_image_url', $this->mediaUrl($ogImage));
+        }
+
         return [
             'title' => $this->title,
             'description' => $this->description,
@@ -48,7 +54,7 @@ class Setting extends Model
             'favicon_url' => $this->mediaUrl($this->favicon),
             'placeholder_image_url' => $this->mediaUrl($this->placeholder_image),
             'maintenance_mode' => (bool) $this->maintenance_mode,
-            'magicbox' => $this->magicbox ?? [],
+            'magicbox' => $magicbox,
         ];
     }
 

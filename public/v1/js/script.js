@@ -1,5 +1,6 @@
 $(function () {
     const config = window.AppConfig || {};
+    const FAVORITES_KEY = 'carleasing:favorites';
 
     document.documentElement.classList.add('is-loaded');
     setTimeout(() => {
@@ -7,6 +8,29 @@ $(function () {
     }, 1000);
 
     const $body = $('body');
+    const getFavorites = () => {
+        try {
+            const parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+            return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+        } catch (err) {
+            return [];
+        }
+    };
+    const renderFavoriteCounters = () => {
+        const favorites = Array.from(new Set(getFavorites()));
+        const count = favorites.length;
+        $('[data-favorites-count-badge]').each(function () {
+            if (count > 0) {
+                $(this).removeClass('hidden').addClass('inline-flex').text(count > 99 ? '99+' : count);
+            } else {
+                $(this).removeClass('inline-flex').addClass('hidden').text('');
+            }
+        });
+        $('[data-favorites-count-inline]').text(count > 0 ? `(${count})` : '');
+    };
+    renderFavoriteCounters();
+    window.addEventListener('storage', renderFavoriteCounters);
+    window.addEventListener('favorites:changed', renderFavoriteCounters);
 
     // Tema tercihini localStorage'dan yükle
     const savedTheme = localStorage.getItem('theme') || 'light';

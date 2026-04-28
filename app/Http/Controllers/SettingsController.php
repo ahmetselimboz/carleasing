@@ -94,6 +94,12 @@ class SettingsController
         }
 
         $prevMb = $settings->magicbox ?? [];
+
+        $ogImage = (string) data_get($prevMb, 'seo.og_image', '');
+        if ($request->hasFile('magicbox.seo.og_image')) {
+            $this->deleteIfExists($ogImage);
+            $ogImage = $request->file('magicbox.seo.og_image')->store($dir, 'public');
+        }
         $googleSecret = $request->input('magicbox.google.oauth_client_secret');
         if (! filled($googleSecret)) {
             $googleSecret = (string) data_get($prevMb, 'google.oauth_client_secret', '');
@@ -128,6 +134,13 @@ class SettingsController
                 'meta_keywords' => $request->input('magicbox.seo.meta_keywords', ''),
                 'default_meta_description' => $request->input('magicbox.seo.default_meta_description', ''),
                 'allow_indexing' => $request->boolean('magicbox.seo.allow_indexing'),
+                'google_site_verification' => trim((string) $request->input('magicbox.seo.google_site_verification', '')),
+                'bing_site_verification' => trim((string) $request->input('magicbox.seo.bing_site_verification', '')),
+                'yandex_verification' => trim((string) $request->input('magicbox.seo.yandex_verification', '')),
+                'twitter_handle' => trim((string) $request->input('magicbox.seo.twitter_handle', '')),
+                'locale' => trim((string) $request->input('magicbox.seo.locale', '')) ?: 'tr-TR',
+                'og_locale' => trim((string) $request->input('magicbox.seo.og_locale', '')) ?: 'tr_TR',
+                'og_image' => $ogImage,
             ],
             'inject' => [
                 'head' => $request->input('magicbox.inject.head', ''),

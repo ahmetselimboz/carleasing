@@ -1,8 +1,12 @@
 @extends('theme.v1.layout')
 
 @section('meta')
-    <title>Biz sizi arayalım — {{ $site['title'] ?? config('app.name') }}</title>
-    <meta name="description" content="Form bilgilerinizi bırakın, ekibimiz en kısa sürede sizi geri arasın.">
+    @include('theme.v1.components.meta', [
+        'title' => 'Biz Sizi Arayalım',
+        'description' => 'Numaranızı bırakın, kiralama uzmanlarımız size en kısa sürede dönsün.',
+        'canonical' => route('we-call-you.create'),
+        'noindex' => true,
+    ])
 @endsection
 
 @section('content')

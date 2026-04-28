@@ -78,6 +78,7 @@
                     @enderror
                 </div>
                 @include('admin.fleet.cars.partials.car-image-field', ['car' => null])
+                @include('admin.components.seo-fields', ['model' => null])
                 @include('admin.fleet.cars.partials.magicbox-fields', ['mbRows' => $mbRows])
                 @error('magicbox')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
