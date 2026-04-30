@@ -842,3 +842,212 @@ body.dark-mode .border-\[\#37008a\]\/20 {
 body.dark-mode .login-hero-gradient img {
     filter: brightness(1.08);
 }
+
+/* ================================================================
+   DASHBOARD DARK MODE — KPI / Sparkline / Lead kuyrukları
+   ================================================================ */
+
+/* Renkli soft yüzeyler (rose/amber/emerald/cyan/violet/rose-50, /40, /60, gradients) */
+body.dark-mode .bg-rose-50,
+body.dark-mode .bg-rose-50\/40,
+body.dark-mode .bg-rose-50\/60 {
+    background-color: rgba(244, 63, 94, 0.10) !important;
+}
+body.dark-mode .bg-amber-50,
+body.dark-mode .bg-amber-50\/40,
+body.dark-mode .bg-amber-50\/60 {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+}
+body.dark-mode .bg-emerald-50,
+body.dark-mode .bg-emerald-50\/40,
+body.dark-mode .bg-emerald-50\/60 {
+    background-color: rgba(16, 185, 129, 0.12) !important;
+}
+body.dark-mode .bg-teal-50 {
+    background-color: rgba(13, 148, 136, 0.12) !important;
+}
+body.dark-mode .bg-cyan-50 {
+    background-color: rgba(6, 182, 212, 0.14) !important;
+}
+body.dark-mode .bg-pink-50 {
+    background-color: rgba(236, 72, 153, 0.14) !important;
+}
+body.dark-mode .bg-fuchsia-50 {
+    background-color: rgba(217, 70, 239, 0.14) !important;
+}
+body.dark-mode .bg-violet-50 {
+    background-color: rgba(139, 92, 246, 0.16) !important;
+}
+body.dark-mode .bg-indigo-50 {
+    background-color: rgba(99, 102, 241, 0.16) !important;
+}
+body.dark-mode .bg-blue-50 {
+    background-color: rgba(59, 130, 246, 0.14) !important;
+}
+
+/* Gradient kart başlıklarındaki "from-color-50 to-transparent" — dark'ta soft renk korunsun */
+body.dark-mode .from-rose-50    { --tw-gradient-from: rgba(244, 63, 94, 0.10) var(--tw-gradient-from-position) !important; }
+body.dark-mode .from-amber-50   { --tw-gradient-from: rgba(245, 158, 11, 0.12) var(--tw-gradient-from-position) !important; }
+body.dark-mode .from-emerald-50 { --tw-gradient-from: rgba(16, 185, 129, 0.12) var(--tw-gradient-from-position) !important; }
+body.dark-mode .from-slate-50   { --tw-gradient-from: rgba(15, 23, 42, 0.6) var(--tw-gradient-from-position) !important; }
+body.dark-mode .to-white        { --tw-gradient-to: var(--bg-surface) var(--tw-gradient-to-position) !important; }
+
+/* Açık tonlu rakam metinleri (700'lü tonlar) dark'ta okunabilirlik için açık kalsın */
+body.dark-mode .text-rose-700    { color: #fda4af !important; }
+body.dark-mode .text-rose-600    { color: #fb7185 !important; }
+body.dark-mode .text-rose-500    { color: #f87171 !important; }
+body.dark-mode .text-amber-700   { color: #fcd34d !important; }
+body.dark-mode .text-amber-600   { color: #fbbf24 !important; }
+body.dark-mode .text-amber-500   { color: #f59e0b !important; }
+body.dark-mode .text-emerald-700 { color: #6ee7b7 !important; }
+body.dark-mode .text-emerald-600 { color: #34d399 !important; }
+body.dark-mode .text-emerald-500 { color: #10b981 !important; }
+body.dark-mode .text-cyan-600    { color: #22d3ee !important; }
+body.dark-mode .text-blue-600    { color: #60a5fa !important; }
+body.dark-mode .text-violet-600  { color: #a78bfa !important; }
+body.dark-mode .text-fuchsia-600 { color: #e879f9 !important; }
+body.dark-mode .text-pink-600    { color: #f472b6 !important; }
+body.dark-mode .text-teal-600    { color: #2dd4bf !important; }
+body.dark-mode .text-indigo-600,
+body.dark-mode .text-indigo-700  { color: #a5b4fc !important; }
+body.dark-mode .text-amber-200   { color: #fcd34d !important; }
+body.dark-mode .text-emerald-200 { color: #6ee7b7 !important; }
+
+/* Avatar rozetleri (bg-rose-100 vb) — dark zemin üzerinde okunaklı kalsın */
+body.dark-mode .bg-rose-100    { background-color: rgba(244, 63, 94, 0.18) !important; }
+body.dark-mode .bg-amber-100   { background-color: rgba(245, 158, 11, 0.20) !important; }
+body.dark-mode .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.18) !important; }
+body.dark-mode .bg-rose-100.text-rose-700      { color: #fecdd3 !important; }
+body.dark-mode .bg-amber-100.text-amber-700    { color: #fde68a !important; }
+body.dark-mode .bg-emerald-100.text-emerald-700 { color: #a7f3d0 !important; }
+
+/* Renkli kenar (border-*-100, *-200) */
+body.dark-mode .border-rose-100,
+body.dark-mode .border-rose-200    { border-color: rgba(244, 63, 94, 0.30) !important; }
+body.dark-mode .border-amber-100,
+body.dark-mode .border-amber-200   { border-color: rgba(245, 158, 11, 0.32) !important; }
+body.dark-mode .border-emerald-100,
+body.dark-mode .border-emerald-200 { border-color: rgba(16, 185, 129, 0.30) !important; }
+body.dark-mode .border-indigo-200  { border-color: rgba(99, 102, 241, 0.35) !important; }
+
+/* Kuyruk satırı vurguları (unread highlight) — dark'ta daha doygun */
+body.dark-mode a.bg-rose-50\/40    { background-color: rgba(244, 63, 94, 0.08) !important; }
+body.dark-mode a.bg-amber-50\/40   { background-color: rgba(245, 158, 11, 0.10) !important; }
+body.dark-mode a.bg-emerald-50\/40 { background-color: rgba(16, 185, 129, 0.10) !important; }
+
+/* Sparkline çubuk gradient'ı — açık modda mavi, dark'ta brand mor okunaklı */
+body.dark-mode .from-indigo-200 { --tw-gradient-from: rgba(165, 180, 252, 0.25) var(--tw-gradient-from-position) !important; }
+body.dark-mode .to-indigo-400   { --tw-gradient-to: rgba(129, 140, 248, 0.55) var(--tw-gradient-to-position) !important; }
+
+/* KPI kartı sağ üst dekoratif daire — dark'ta hafif daha görünür */
+body.dark-mode .bg-gradient-to-br.from-rose-500.to-pink-500,
+body.dark-mode .bg-gradient-to-br.from-indigo-500.to-violet-600,
+body.dark-mode .bg-gradient-to-br.from-emerald-500.to-teal-500,
+body.dark-mode .bg-gradient-to-br.from-amber-500.to-orange-500 {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Greeting hero — dark'ta zaten koyu, dekoratif glow'u biraz azalt */
+body.dark-mode .bg-gradient-to-br.from-\[var\(--color-primary\,\#370089\)\] {
+    background-image: linear-gradient(135deg, #2d0070, #4a0bb0 45%, #1a0040) !important;
+}
+
+/* Hızlı eylem kart hover gradient'ı dark mode'da düzgün dursun */
+body.dark-mode .group\/card:hover .bg-gradient-to-br {
+    box-shadow: 0 8px 22px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* "Tümünü görüntüle" link metni dark mode'da kontrast için açılsın */
+body.dark-mode .text-rose-600.hover\:text-rose-700:hover    { color: #fecaca !important; }
+body.dark-mode .text-amber-600.hover\:text-amber-700:hover  { color: #fde68a !important; }
+body.dark-mode .text-emerald-600.hover\:text-emerald-700:hover { color: #a7f3d0 !important; }
+
+/* GA stats header — dark'ta açık gradient yerine sade surface */
+body.dark-mode .bg-gradient-to-r.from-slate-50.to-white {
+    background: linear-gradient(to right, var(--bg-surface-alt), var(--bg-surface)) !important;
+}
+
+/* GA error UI'ında kullanılan dark: utility'leri (Tailwind dark variant değil) — manuel kurallar */
+body.dark-mode .border-slate-700 { border-color: var(--border-default) !important; }
+body.dark-mode .bg-slate-800     { background-color: var(--bg-surface) !important; }
+body.dark-mode .bg-slate-900\/40 { background-color: rgba(15, 23, 42, 0.55) !important; }
+body.dark-mode .text-slate-50,
+body.dark-mode .text-slate-100   { color: var(--text-heading) !important; }
+body.dark-mode .text-slate-200,
+body.dark-mode .text-slate-300   { color: var(--text-body) !important; }
+body.dark-mode .text-slate-400   { color: var(--text-muted) !important; }
+body.dark-mode .hover\:bg-slate-700:hover { background-color: rgba(255, 255, 255, 0.06) !important; }
+
+/* AmCharts harita arkaplanı — dark mod'da bg-slate-50 yerine yumuşak */
+body.dark-mode #chartdiv.bg-slate-50 {
+    background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* GA loading spinner ring rengi dark'ta brand */
+body.dark-mode .border-slate-200.border-t-\[var\(--color-brand-solid\,\#37008a\)\] {
+    border-color: rgba(255, 255, 255, 0.10);
+    border-top-color: #a78bfa;
+}
+
+/* Chart grid metinleri (apex/amcharts label'ları) için global svg text */
+body.dark-mode #trendChart text,
+body.dark-mode #last1DayChart text,
+body.dark-mode #last7DayChart text,
+body.dark-mode #last30DayChart text,
+body.dark-mode #deviceChart text,
+body.dark-mode #browserChart text {
+    fill: var(--text-secondary) !important;
+}
+
+body.dark-mode #trendChart .apexcharts-gridline,
+body.dark-mode #trendChart .apexcharts-grid line {
+    stroke: var(--border-default) !important;
+}
+
+body.dark-mode .apexcharts-tooltip {
+    background: var(--bg-surface) !important;
+    color: var(--text-body) !important;
+    border-color: var(--border-default) !important;
+}
+
+body.dark-mode .apexcharts-tooltip-title {
+    background: var(--bg-surface-alt) !important;
+    border-color: var(--border-default) !important;
+    color: var(--text-heading) !important;
+}
+
+body.dark-mode .apexcharts-xaxistooltip,
+body.dark-mode .apexcharts-yaxistooltip {
+    background: var(--bg-surface) !important;
+    color: var(--text-body) !important;
+    border-color: var(--border-default) !important;
+}
+
+/* Date input dark mode görünüm */
+body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.6);
+}
+
+/* ================================================================
+   DASHBOARD SVG SPARKLINE
+   ================================================================ */
+.dash-spark-grid {
+    stroke: rgba(15, 23, 42, 0.08);
+}
+body.dark-mode .dash-spark-grid {
+    stroke: rgba(255, 255, 255, 0.08);
+}
+
+.dash-spark-point circle {
+    transition: r 0.15s ease, stroke-width 0.15s ease;
+}
+.dash-spark-point:hover circle,
+.dash-spark-point:focus circle {
+    r: 6;
+    stroke-width: 3;
+}
+
+body.dark-mode .dash-spark-point circle {
+    fill: var(--bg-surface);
+    stroke: #a78bfa;
+}

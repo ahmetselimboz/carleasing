@@ -2,7 +2,7 @@
 
 @section('meta')
     @include('theme.v1.components.meta', [
-        'title' => ($site['title'] ?? config('app.name')).' — Uzun Dönem Araç Kiralama',
+        'title' => 'Kurumsal Filo ve Uzun Dönem Araç Kiralama',
         'description' => $site['magicbox']['seo']['default_meta_description']
             ?? ($site['description'] ?? 'Kurumsal ve bireysel uzun dönem araç kiralama, filo yönetimi ve operasyonel kiralama çözümleri.'),
         'canonical' => route('home'),

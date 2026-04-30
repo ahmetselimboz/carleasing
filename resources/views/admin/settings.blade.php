@@ -628,21 +628,21 @@
 
                         <div class="rounded-xl border border-slate-100 bg-white p-5 space-y-4 shadow-sm">
                             <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2"><i
-                                    class="ri-mail-send-line text-brand"></i> E-posta gonderim ayarlari (SMTP)</h3>
+                                    class="ri-mail-send-line text-brand"></i> E-posta gönderim ayarları (SMTP)</h3>
                             <p class="text-xs text-slate-500">
-                                Bu alanlar sayesinde sistem, kullanicilara ve yonetim ekibine otomatik e-posta gonderir.
-                                Alan adlari teknik olarak Ingilizce kalir; aciklamalar Turkce verilmistir.
+                                Bu alanlar sayesinde sistem, kullanıcılara ve yönetim ekibine otomatik e-posta gönderir.
+                                Alan adları teknik olarak İngilizce kalır; açıklamalar Türkçe verilmiştir.
                             </p>
                             <div
                                 class="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 space-y-1">
-                                <p><strong>MAIL_MAILER</strong>: Gonderim yontemi. Genelde <code
-                                        class="bg-white px-1 rounded border border-slate-200">smtp</code> kullanilir.</p>
-                                <p><strong>MAIL_HOST</strong> / <strong>MAIL_PORT</strong>: E-posta saglayicinizin sunucu
-                                    adresi ve port numarasi.</p>
-                                <p><strong>MAIL_USERNAME</strong> / <strong>MAIL_PASSWORD</strong>: SMTP giris bilgileri.
+                                <p><strong>MAIL_MAILER</strong>: Gönderim yöntemi. Genelde <code
+                                        class="bg-white px-1 rounded border border-slate-200">smtp</code> kullanılır.</p>
+                                <p><strong>MAIL_HOST</strong> / <strong>MAIL_PORT</strong>: E-posta sağlayıcınızın sunucu
+                                    adresi ve port numarası.</p>
+                                <p><strong>MAIL_USERNAME</strong> / <strong>MAIL_PASSWORD</strong>: SMTP giriş bilgileri.
                                 </p>
-                                <p><strong>MAIL_FROM_ADDRESS</strong> / <strong>MAIL_FROM_NAME</strong>: Alicida gorunen
-                                    gonderen e-posta ve ad.</p>
+                                <p><strong>MAIL_FROM_ADDRESS</strong> / <strong>MAIL_FROM_NAME</strong>: Alıcıda görünen
+                                    gönderen e-posta ve ad.</p>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -715,27 +715,27 @@
 
                         <div class="rounded-xl border border-slate-100 bg-white p-5 space-y-4 shadow-sm">
                             <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2"><i
-                                    class="ri-notification-3-line text-brand"></i> Talep bildirim e-posta ayarlari</h3>
+                                    class="ri-notification-3-line text-brand"></i> Talep bildirim e-posta ayarları</h3>
                             <p class="text-xs text-slate-500">
-                                Kiralama Talebi, Iletisim Mesaji ve Geri Arama Talebi olustugunda hem talep sahibine hem de
-                                ic ekibe e-posta atilmasini yonetir.
+                                Kiralama Talebi, İletişim Mesajı ve Geri Arama Talebi oluştuğunda hem talep sahibine hem de
+                                iç ekibe e-posta atılmasını yönetir.
                             </p>
                             <div
                                 class="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 space-y-1">
-                                <p><strong>LEAD_MAIL_ENABLED=true</strong>: Otomatik talep e-postalarini ac/kapat.</p>
+                                <p><strong>LEAD_MAIL_ENABLED=true</strong>: Otomatik talep e-postalarını aç/kapat.</p>
                                 <p><strong>LEAD_MAIL_ADMIN_ROLES=super_admin,admin,customer_service</strong>: Kimlere "yeni
-                                    talep geldi" maili gidecegini belirler.</p>
-                                <p><strong>LEAD_MAIL_FORCE_TO</strong>: Test ortami icin tum mailleri tek adrese
-                                    yonlendirir. Bos ise normal dagitim yapilir.</p>
+                                    talep geldi" maili gideceğini belirler.</p>
+                                <p><strong>LEAD_MAIL_FORCE_TO</strong>: Test ortamı için tüm mailleri tek adrese
+                                    yönlendirir. Boş ise normal dağıtım yapılır.</p>
                             </div>
                             <div class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">
-                                Not: Bu degerler <code class="bg-white px-1 rounded border border-amber-200">.env</code>
-                                uzerinden yonetilir.
-                                Ayarlari guncelledikten sonra <code
+                                Not: Bu değerler <code class="bg-white px-1 rounded border border-amber-200">.env</code>
+                                üzerinden yönetilir.
+                                Ayarları güncelledikten sonra <code
                                     class="bg-white px-1 rounded border border-amber-200">php artisan config:clear</code>
-                                calistirip
-                                kuyruk icin <code class="bg-white px-1 rounded border border-amber-200">php artisan
-                                    queue:work</code> acik tutun.
+                                çalıştırıp
+                                kuyruk için <code class="bg-white px-1 rounded border border-amber-200">php artisan
+                                    queue:work</code> açık tutun.
                             </div>
                         </div>
                     </div>

@@ -156,6 +156,10 @@ class SettingsController
                 'oauth_redirect_url' => $request->input('magicbox.google.oauth_redirect_url', ''),
                 'property_id' => $request->input('magicbox.google.property_id', ''),
                 'analytics_tracking_code' => $request->input('magicbox.google.analytics_tracking_code', ''),
+                // Google OAuth token'larını koru (GoogleController tarafından yönetilir)
+                'access_token' => data_get($prevMb, 'google.access_token'),
+                'refresh_token' => data_get($prevMb, 'google.refresh_token'),
+                'token_expires_at' => data_get($prevMb, 'google.token_expires_at'),
             ],
             'mail' => [
                 'smtp_host' => $request->input('magicbox.mail.smtp_host', ''),

@@ -22,4 +22,7 @@
 
 }
 
+/* Tailwind v4: dark variant'ı body.dark-mode class'ına bağla */
+@custom-variant dark (body.dark-mode &);
+
 @import '../../public/admin/css/shared.css';

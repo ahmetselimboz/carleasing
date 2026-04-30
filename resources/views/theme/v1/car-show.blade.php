@@ -10,7 +10,7 @@
 
         $autoTitle = $carMetaTitle !== ''
             ? $carMetaTitle
-            : $car->title.($carMonthly ? ' '.$carMonthly.' TL/Ay'.($carDurationLabel ? ' ('.$carDurationLabel.')' : '') : '').' Uzun Dönem Kiralama';
+            : $car->title.' Uzun Dönem Kiralama'.($carMonthly ? ' · '.$carMonthly.'/ay'.($carDurationLabel ? ' ('.$carDurationLabel.')' : '') : '');
 
         $autoDesc = $carMetaDescription !== ''
             ? $carMetaDescription
@@ -33,8 +33,11 @@
         $carImage = $car->displayImageUrl();
 
         $priceCandidates = $car->priceMatrices->pluck('monthly_price')
-            ->filter(fn ($p) => is_numeric(preg_replace('/[^0-9.]/', '', (string) $p)))
-            ->map(fn ($p) => (float) preg_replace('/[^0-9.]/', '', (string) $p))
+            ->map(function ($p) {
+                $digits = preg_replace('/[^0-9]/', '', (string) $p);
+                return $digits !== '' ? (int) $digits : null;
+            })
+            ->filter()
             ->values();
         $minPrice = $priceCandidates->min();
         $maxPrice = $priceCandidates->max();
@@ -730,7 +733,7 @@
                     icon.classList.toggle('ri-heart-line', !isFavorite);
                 }
                 if (label) {
-                    label.textContent = isFavorite ? 'Listeden cikar' : 'Listeye ekle';
+                    label.textContent = isFavorite ? 'Listeden çıkar' : 'Listeye ekle';
                 }
             };
 

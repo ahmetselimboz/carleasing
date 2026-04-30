@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('slug');
             $table->integer('slug_hash');
             $table->text('description')->nullable();
-            $table->foreignId('page_category_id')->constrained('page_categories');
+            $table->foreignId('page_category_id')
+                ->constrained('page_categories');
             $table->boolean('is_active')->default(1);
             $table->json('magicbox')->nullable();
             $table->softDeletes();

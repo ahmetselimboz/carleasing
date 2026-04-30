@@ -8,3 +8,5 @@ Disallow: /sayfa/*?*
 Allow: /
 
 Sitemap: /sitemap.xml
+
+

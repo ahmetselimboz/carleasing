@@ -51,7 +51,7 @@ class LeadMailService
         $fullName = trim((string) ($model->name ?? '').' '.(string) ($model->surname ?? ''));
         $typeLabel = match ($type) {
             'rental_request' => 'Kiralama Talebi',
-            'message' => 'Iletisim Mesaji',
+            'message' => 'İletişim Mesajı',
             'we_call_you' => 'Geri Arama Talebi',
             default => 'Talep',
         };

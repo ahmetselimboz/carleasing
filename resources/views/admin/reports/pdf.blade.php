@@ -59,7 +59,7 @@
                 <th>Tarih</th>
                 <th>Ad Soyad</th>
                 <th>Telefon</th>
-                <th>Sehir</th>
+                <th>Şehir</th>
                 <th>Durum</th>
             </tr>
         </thead>

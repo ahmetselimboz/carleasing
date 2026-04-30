@@ -35,6 +35,9 @@ use App\Http\Controllers\RentalQuoteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\WeCallYouController;
+use App\Http\Controllers\GoogleController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('manage')->group(function (): void {
@@ -52,7 +55,21 @@ Route::prefix('manage')->group(function (): void {
         Route::get('/settings', [ManageController::class, 'settings'])->name('settings');
         Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
         Route::post('/cache/clear', [ManageController::class, 'clearCache'])->name('cache.clear');
+        Route::get('/db/seed', function (Request $request) {
+            $seederClass = $request->string('class')->toString();
+            $parameters = $seederClass !== '' ? ['--class' => $seederClass] : [];
+
+            Artisan::call('db:seed', $parameters);
+
+            return back()->with('status', 'Veritabani seed islemi tamamlandi.');
+        })->name('db.seed');
         Route::get('/menus', [ManageController::class, 'menus'])->name('menus.index');
+
+        // Google Analytics
+        Route::get('/google/logout', [GoogleController::class, 'googleLogout'])->name('google.logout');
+        Route::get('/homepage-stats', [GoogleController::class, 'getHomepageStats'])->name('google.homepage-stats');
+        Route::get('/realtime-users', [GoogleController::class, 'fetchRealtimeActiveUsers'])->name('google.realtime-users');
+        Route::get('/trend-data', [GoogleController::class, 'getTrendData'])->name('google.trend-data');
         Route::post('/menus', [SettingsController::class, 'updateMenus'])->name('menus.update');
 
         Route::resource('users', UserController::class)->except(['show']);
@@ -104,6 +121,12 @@ Route::prefix('manage')->group(function (): void {
     });
 });
 
+// Google OAuth (manage prefix dışında - redirect URI tam URL olmalı)
+Route::middleware('auth')->group(function (): void {
+    Route::get('/auth/google', [GoogleController::class, 'googleConnect'])->name('google.connect');
+    Route::get('/auth/google/callback', [GoogleController::class, 'googleCallback'])->name('google.callback');
+});
+
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-static.xml', [SitemapController::class, 'staticUrls'])->name('sitemap.static');
 Route::get('/sitemap-cars.xml', [SitemapController::class, 'cars'])->name('sitemap.cars');
@@ -121,4 +144,4 @@ Route::post('/liste/talep-gonder', [ListController::class, 'submitListRequest'])
 Route::get('/biz-sizi-arayalim', [WeCallYouController::class, 'create'])->name('we-call-you.create');
 Route::post('/biz-sizi-arayalim', [WeCallYouController::class, 'store'])->name('we-call-you.store');
 Route::get('/referanslar', [PublicReferenceController::class, 'index'])->name('public.references.index');
-Route::get('/sayfa/{slug}', [PublicPageController::class, 'show'])->name('public.pages.show');
+Route::get('/{slug}', [PublicPageController::class, 'show'])->name('public.pages.show');

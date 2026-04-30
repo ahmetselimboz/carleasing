@@ -99,12 +99,12 @@ class ReportController
         }
 
         $labels = [
-            'today' => 'Bugun',
-            'last_7_days' => 'Son 7 Gun',
-            'last_30_days' => 'Son 30 Gun',
+            'today' => 'Bugün',
+            'last_7_days' => 'Son 7 Gün',
+            'last_30_days' => 'Son 30 Gün',
             'this_month' => 'Bu Ay',
-            'this_year' => 'Bu Yil',
-            'custom' => 'Ozel Aralik',
+            'this_year' => 'Bu Yıl',
+            'custom' => 'Özel Aralık',
         ];
 
         return [
@@ -334,7 +334,7 @@ class ReportController
                 return;
             }
 
-            fputcsv($handle, ['Tip', 'Tarih', 'Ad Soyad', 'E-posta', 'Telefon', 'Sehir', 'Detay', 'Durum'], ';');
+            fputcsv($handle, ['Tip', 'Tarih', 'Ad Soyad', 'E-posta', 'Telefon', 'Şehir', 'Detay', 'Durum'], ';');
             foreach ($rows as $row) {
                 fputcsv($handle, [
                     $row['type'],
@@ -357,7 +357,7 @@ class ReportController
 
         return response()->streamDownload(function () use ($rows): void {
             echo '<table border="1"><thead><tr>';
-            echo '<th>Tip</th><th>Tarih</th><th>Ad Soyad</th><th>E-posta</th><th>Telefon</th><th>Sehir</th><th>Detay</th><th>Durum</th>';
+            echo '<th>Tip</th><th>Tarih</th><th>Ad Soyad</th><th>E-posta</th><th>Telefon</th><th>Şehir</th><th>Detay</th><th>Durum</th>';
             echo '</tr></thead><tbody>';
             foreach ($rows as $row) {
                 echo '<tr>';
